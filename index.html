@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<title>X 账号阴影检测</title>
+<meta name="description" content="检测你的 X (Twitter) 账号是否被隐形限制。免费、快速、匿名。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f;
+    --bg-card: rgba(255,255,255,0.04);
+    --bg-card-hover: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --text: #e4e4ed;
+    --text-muted: #8b8b9d;
+    --text-dim: #5c5c72;
+    --accent: #6c5ce7;
+    --accent-glow: rgba(108,92,231,0.3);
+    --green: #00d68f;
+    --green-glow: rgba(0,214,143,0.25);
+    --red: #ff6b6b;
+    --red-glow: rgba(255,107,107,0.25);
+    --yellow: #ffd93d;
+    --yellow-glow: rgba(255,217,61,0.25);
+    --blue: #54a0ff;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --font: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .bg-canvas { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .bg-canvas .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15; animation: orbFloat 20s ease-in-out infinite; }
+  .bg-canvas .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -15%; left: -10%; animation-delay: 0s; }
+  .bg-canvas .orb:nth-child(2) { width: 500px; height: 500px; background: var(--blue); bottom: -20%; right: -10%; animation-delay: -7s; opacity: 0.1; }
+  .bg-canvas .orb:nth-child(3) { width: 400px; height: 400px; background: var(--green); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.06; }
+  @keyframes orbFloat { 0%,100%{transform:translate(0,0)scale(1)} 25%{transform:translate(80px,-60px)scale(1.05)} 50%{transform:translate(-40px,80px)scale(.95)} 75%{transform:translate(60px,40px)scale(1.02)} }
+  .bg-grid { position: fixed; inset: 0; z-index: 1; background-image: linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px); background-size: 60px 60px; pointer-events: none; }
+  .container { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  /* ── Lang Toggle ── */
+  .lang-toggle { position: relative; z-index: 3; display: flex; justify-content: flex-end; padding: 16px 24px 0; max-width: 720px; margin: 0 auto; }
+  .lang-btn {
+    background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px;
+    cursor: pointer; font-family: var(--font); font-size: 0.78rem; font-weight: 500;
+    color: var(--text-muted); display: flex; align-items: center; gap: 4px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .lang-btn:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+  .lang-btn .lang-icon { transition: color 0.3s; }
+  .lang-btn .lang-icon.active { color: var(--accent); font-weight: 700; }
+  .lang-divider { color: var(--text-dim); }
+
+  header { text-align: center; padding: 20px 0 32px; }
+  header .logo { display: inline-flex; align-items: center; gap: 12px; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg,#fff 0%,#a78bfa 50%,#6c5ce7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  header .logo .icon { width: 40px; height: 40px; background: linear-gradient(135deg,#6c5ce7,#a78bfa); border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; -webkit-text-fill-color: white; font-size: 22px; box-shadow: 0 4px 20px var(--accent-glow); }
+  header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 10px; font-weight: 400; }
+  .search-card { background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; display: flex; align-items: center; gap: 16px; transition: border-color 0.3s, box-shadow 0.3s; }
+  .search-card:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .search-card .input-wrap { flex: 1; display: flex; align-items: center; gap: 8px; }
+  .search-card .input-wrap .at { font-size: 1.35rem; color: var(--text-muted); font-weight: 600; }
+  .search-card input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-size: 1.25rem; font-weight: 500; font-family: var(--font); letter-spacing: -0.01em; }
+  .search-card input::placeholder { color: var(--text-dim); font-weight: 400; }
+  .search-card .check-btn { background: linear-gradient(135deg,#6c5ce7,#a78bfa); border: none; color: #fff; font-family: var(--font); font-weight: 600; font-size: 0.95rem; padding: 12px 28px; border-radius: var(--radius-sm); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+  .search-card .check-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+  .search-card .check-btn:active { transform: translateY(0); }
+  .search-card .check-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .search-card .check-btn .spinner { display: none; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; }
+  .search-card .check-btn.loading .spinner { display: block; }
+  .search-card .check-btn.loading .label { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-box { display: none; margin-top: 20px; padding: 16px 20px; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.25); border-radius: var(--radius-sm); color: var(--red); font-size: 0.9rem; align-items: center; gap: 10px; }
+  .error-box.show { display: flex; }
+  .error-box .material-icons { font-size: 20px; }
+  .profile-card { display: none; margin-top: 24px; background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; align-items: center; gap: 18px; animation: fadeUp 0.5s ease; }
+  .profile-card.show { display: flex; }
+  .profile-card .avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,#6c5ce7,#a78bfa); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .profile-card .info { flex: 1; min-width: 0; }
+  .profile-card .info .name { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+  .profile-card .info .name span { color: var(--text-muted); font-weight: 400; }
+  .profile-card .info .status-badges { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .profile-card .info .status-badges .badge { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.01em; }
+  .badge-green { background: rgba(0,214,143,0.15); color: var(--green); }
+  .badge-red { background: rgba(255,107,107,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(255,217,61,0.15); color: var(--yellow); }
+  .badge-neutral { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+  .results { display: none; margin-top: 20px; gap: 14px; flex-direction: column; animation: fadeUp 0.5s ease; }
+  .results.show { display: flex; }
+  .result-card { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: flex-start; gap: 16px; transition: background 0.3s, border-color 0.3s; }
+  .result-card:hover { background: var(--bg-card-hover); }
+  .result-card .icon-wrap { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; }
+  .result-card .icon-wrap.pass { background: rgba(0,214,143,0.12); color: var(--green); }
+  .result-card .icon-wrap.fail { background: rgba(255,107,107,0.12); color: var(--red); }
+  .result-card .icon-wrap.warn { background: rgba(255,217,61,0.12); color: var(--yellow); }
+  .result-card .icon-wrap.neutral { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+  .result-card .body { flex: 1; min-width: 0; }
+  .result-card .body .title { font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .result-card .body .title .tag { font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.04em; }
+  .tag-pass { background: rgba(0,214,143,0.15); color: var(--green); }
+  .tag-fail { background: rgba(255,107,107,0.15); color: var(--red); }
+  .tag-warn { background: rgba(255,217,61,0.15); color: var(--yellow); }
+  .tag-info { background: rgba(84,160,255,0.15); color: var(--blue); }
+  .result-card .body .desc { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; line-height: 1.5; }
+  .score-card { display: none; margin-top: 24px; background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; text-align: center; animation: fadeUp 0.5s ease; }
+  .score-card.show { display: block; }
+  .score-card .score-ring { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; position: relative; }
+  .score-ring.all-clear { background: conic-gradient(var(--green) 0deg,rgba(0,214,143,0.08) 0deg); color: var(--green); box-shadow: 0 0 40px var(--green-glow); }
+  .score-ring.partial { background: conic-gradient(var(--yellow) var(--score-deg,0deg),rgba(255,217,61,0.08) var(--score-deg,0deg)); color: var(--yellow); box-shadow: 0 0 40px var(--yellow-glow); }
+  .score-ring.concern { background: conic-gradient(var(--red) var(--score-deg,0deg),rgba(255,107,107,0.08) var(--score-deg,0deg)); color: var(--red); box-shadow: 0 0 40px var(--red-glow); }
+  .score-card .score-label { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  .score-card .score-desc { color: var(--text-muted); font-size: 0.9rem; }
+  .info-section { margin-top: 48px; }
+  .info-section h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-muted); margin-bottom: 16px; }
+  .info-item { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 10px; cursor: pointer; transition: background 0.3s; user-select: none; }
+  .info-item:hover { background: var(--bg-card-hover); }
+  .info-item .info-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 500; }
+  .info-item .info-header .material-icons { transition: transform 0.3s; color: var(--text-dim); font-size: 20px; }
+  .info-item.open .info-header .material-icons { transform: rotate(180deg); }
+  .info-item .info-body { display: none; margin-top: 12px; color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; border-top: 1px solid var(--border); padding-top: 12px; }
+  .info-item.open .info-body { display: block; }
+  .info-item .info-body strong { color: var(--text); }
+  footer { text-align: center; margin-top: 60px; padding: 20px 0; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); }
+  footer a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: #a78bfa; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) {
+    .container { padding: 24px 16px 40px; }
+    .lang-toggle { padding: 12px 16px 0; }
+    header { padding: 12px 0 20px; }
+    header .logo { font-size: 1.4rem; }
+    header .logo .icon { width: 34px; height: 34px; font-size: 18px; }
+    .search-card { flex-direction: column; padding: 20px; gap: 14px; }
+    .search-card .input-wrap { width: 100%; }
+    .search-card input { font-size: 1.1rem; }
+    .search-card .check-btn { width: 100%; justify-content: center; padding: 12px 20px; }
+    .profile-card { flex-direction: column; text-align: center; padding: 20px; }
+    .profile-card .info .status-badges { justify-content: center; }
+    .result-card { padding: 16px; gap: 12px; }
+    .score-card { padding: 24px 16px; }
+    .score-card .score-ring { width: 80px; height: 80px; font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-canvas">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+<div class="bg-grid"></div>
+
+<div class="lang-toggle">
+  <button id="langBtn" class="lang-btn" title="Switch to English">
+    <span class="lang-icon" id="langIconEn">EN</span>
+    <span class="lang-divider">/</span>
+    <span class="lang-icon" id="langIconZh">中文</span>
+  </button>
+</div>
+
+<div class="container">
+  <header>
+    <div class="logo">
+      <span class="icon material-icons">visibility_off</span>
+      <span data-i18n="title">X 账号阴影检测</span>
+    </div>
+    <p data-i18n="subtitle">检测你的 X (Twitter) 账号是否被隐形限制。输入任意用户名开始检测。</p>
+  </header>
+  <div class="search-card" id="searchCard">
+    <div class="input-wrap">
+      <span class="at">@</span>
+      <input type="text" id="screenName" data-i18n-placeholder="placeholder" placeholder="用户名" maxlength="15" autocomplete="off" spellcheck="false" autofocus>
+    </div>
+    <button class="check-btn" id="checkBtn">
+      <span class="label" data-i18n="checkBtn">检测</span>
+      <span class="spinner"></span>
+    </button>
+  </div>
+  <div class="error-box" id="errorBox">
+    <span class="material-icons">error_outline</span>
+    <span id="errorText"></span>
+  </div>
+  <div class="profile-card" id="profileCard">
+    <div class="avatar" id="avatar"></div>
+    <div class="info">
+      <div class="name">@<span id="displayName"></span></div>
+      <div class="status-badges" id="statusBadges"></div>
+    </div>
+  </div>
+  <div class="results" id="results"></div>
+  <div class="score-card" id="scoreCard">
+    <div class="score-ring" id="scoreRing">
+      <span id="scoreValue"></span>
+    </div>
+    <div class="score-label" id="scoreLabel"></div>
+    <div class="score-desc" id="scoreDesc"></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="info-section">
+    <h3 data-i18n="faqTitle">了解检测结果</h3>
+    <div class="info-item" onclick="this.classList.toggle('open')">
+      <div class="info-header"><span data-i18n="faq1h">什么是阴影限制？</span> <span class="material-icons">expand_more</span></div>
+      <div class="info-body" data-i18n="faq1b">阴影限制（又称 <strong>隐形封禁</strong> 或 <strong>幽灵限制</strong>）是指平台在不通知你的情况下，悄悄限制你内容的可见性。你自己看起来账号一切正常，但你的推文在搜索结果、回复或建议中被隐藏了。</div>
+    </div>
+    <div class="info-item" onclick="this.classList.toggle('open')">
+      <div class="info-header"><span data-i18n="faq2h">搜索建议限制（Typeahead）</span> <span class="material-icons">expand_more</span></div>
+      <div class="info-body" data-i18n="faq2b">当其他用户输入你的账号名时，你的账号是否会出现在搜索建议中？如果<strong>不出现</strong>，说明你的账号可能被限制搜索建议。这是最常见的阴影限制指标之一。</div>
+    </div>
+    <div class="info-item" onclick="this.classList.toggle('open')">
+      <div class="info-header"><span data-i18n="faq3h">搜索可见性限制</span> <span class="material-icons">expand_more</span></div>
+      <div class="info-body" data-i18n="faq3b">检测你的推文是否在其他用户的搜索结果中可见。<strong>失败</strong> 意味着你的内容被隐藏了 — 这是经典的阴影限制信号。</div>
+    </div>
+    <div class="info-item" onclick="this.classList.toggle('open')">
+      <div class="info-header"><span data-i18n="faq4h">幽灵限制（回复可见性）</span> <span class="material-icons">expand_more</span></div>
+      <div class="info-body" data-i18n="faq4b">检查你对其他用户推文的回复是否对所有人可见，还是只有你和原帖作者能看到。<strong>失败</strong> 意味着你的回复被隐藏了 — 只有你和原帖作者能看到。</div>
+    </div>
+    <div class="info-item" onclick="this.classList.toggle('open')">
+      <div class="info-header"><span data-i18n="faq5h">回复降权</span> <span class="material-icons">expand_more</span></div>
+      <div class="info-body" data-i18n="faq5b">检测平台是否在限制你回复的传播范围 — 例如回复被排到评论区底部，或需要点击"显示更多回复"才能看到。<strong>失败</strong> 表示你的互动被人工压制了。</div>
+    </div>
+  </div>
+
+  <footer><span data-i18n="footer">数据来源 <a href="https://shadowban-api.yuzurisa.com" target="_blank" rel="noopener">Shadowban API</a> &mdash; 仅供参考。</span></footer>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  i18n — Internationalization
+// ═══════════════════════════════════════════
+const LANG = {
+  en: {
+    title: 'Shadowban Checker',
+    subtitle: 'Check if your X (Twitter) account is shadowbanned. Enter any username to start.',
+    placeholder: 'username',
+    checkBtn: 'Check',
+    faqTitle: 'Understanding the results',
+    faq1h: 'What is a shadowban?',
+    faq1b: 'A shadowban — also called a <strong>stealth ban</strong> or <strong>ghost ban</strong> — is when a platform silently restricts the visibility of your content without telling you. Your account may appear normal to you, but your posts are hidden from others — in search results, replies, or suggestions.',
+    faq2h: 'Search Suggestion Ban (Typeahead)',
+    faq2b: 'When another user types your handle into the search bar, does your account appear as a suggestion? If not (<strong>fail</strong>), your account may be shadowbanned from search predictions. This is one of the most common shadowban indicators.',
+    faq3h: 'Search Ban',
+    faq3b: 'Tests whether your tweets appear in search results for other users. A <strong>fail</strong> means your content is being hidden from anyone browsing search results — a classic shadowban signal.',
+    faq4h: 'Ghost Ban (Reply Visibility)',
+    faq4b: 'Checks if your replies to other users\' tweets are visible to everyone, or only to you and the person you replied to. A <strong>fail</strong> means your replies are being hidden — only you and the original poster can see them.',
+    faq5h: 'Reply Deboosting',
+    faq5b: 'Tests whether the platform is limiting the reach of your replies — meaning they appear lower in threads or are hidden behind "Show more replies". A <strong>fail</strong> indicates your engagement is being artificially suppressed.',
+    footer: 'Powered by <a href="https://shadowban-api.yuzurisa.com" target="_blank" rel="noopener">Shadowban API</a> &mdash; data provided for informational purposes only.',
+    // JS-generated strings
+    j_enterUser: 'Please enter a username.',
+    j_invalidUser: 'Invalid username. Use only letters, numbers, and underscores (1-15 characters).',
+    j_notExist: 'Account @{name} does not exist or has been suspended.',
+    j_noTests: 'No test results available for this account.',
+    j_serverErr: 'Server error ({code})',
+    j_failErr: 'Failed to check. Please try again.',
+    r_typeahead: 'Search Suggestion (Typeahead)',
+    r_search: 'Search Visibility',
+    r_ghost: 'Ghost Ban (Reply Visibility)',
+    r_reply: 'Reply Deboosting',
+    tag_found: 'Found',
+    tag_notFound: 'Not found',
+    tag_unknown: 'Unknown',
+    tag_visible: 'Visible',
+    tag_hidden: 'Hidden',
+    tag_ok: 'OK',
+    tag_restricted: 'Restricted',
+    tag_suppressed: 'Suppressed',
+    d_typeahead_pass: 'Your account appears in search suggestions when others type your handle.',
+    d_typeahead_fail: 'Your account does not appear in search suggestions. This is a common shadowban indicator.',
+    d_search_pass: 'Your tweets are visible in search results.',
+    d_search_fail: 'Your tweets are hidden from search results. Classic shadowban behavior.',
+    d_ghost_pass: 'Your replies are visible to everyone. No ghost ban detected.',
+    d_ghost_fail: 'Your replies are being hidden from other users. Only you and the original poster can see them.',
+    d_reply_pass: 'Your replies are not being deboosted. Normal visibility.',
+    d_reply_fail: 'Your replies are being suppressed — they appear lower in threads or are hidden.',
+    d_unexpected: 'Unexpected result: {val}',
+    d_status: 'Status: {val}',
+    sc_allClear: 'All Clear',
+    sc_minor: 'Minor Restrictions',
+    sc_detected: 'Shadowban Detected',
+    sc_allPass: 'No shadowban detected. All {n} checks passed.',
+    sc_someFail: '{f} of {n} checks detected restriction{s}. Monitor your account.',
+    sc_manyFail: '{f} of {n} checks indicate shadowbanning. Your account visibility is being restricted.',
+    badge_protected: 'Protected',
+    badge_suspended: 'Suspended',
+    badge_noTweets: 'No Tweets',
+    langTooltip: 'Switch to Chinese',
+  },
+  zh: {
+    title: 'X 账号阴影检测',
+    subtitle: '检测你的 X (Twitter) 账号是否被隐形限制。输入任意用户名开始检测。',
+    placeholder: '用户名',
+    checkBtn: '检测',
+    faqTitle: '了解检测结果',
+    faq1h: '什么是阴影限制？',
+    faq1b: '阴影限制（又称 <strong>隐形封禁</strong> 或 <strong>幽灵限制</strong>）是指平台在不通知你的情况下，悄悄限制你内容的可见性。你自己看起来账号一切正常，但你的推文在搜索结果、回复或建议中被隐藏了。',
+    faq2h: '搜索建议限制（Typeahead）',
+    faq2b: '当其他用户输入你的账号名时，你的账号是否会出现在搜索建议中？如果<strong>不出现</strong>，说明你的账号可能被限制搜索建议。这是最常见的阴影限制指标之一。',
+    faq3h: '搜索可见性限制',
+    faq3b: '检测你的推文是否在其他用户的搜索结果中可见。<strong>失败</strong> 意味着你的内容被隐藏了 — 这是经典的阴影限制信号。',
+    faq4h: '幽灵限制（回复可见性）',
+    faq4b: '检查你对其他用户推文的回复是否对所有人可见，还是只有你和原帖作者能看到。<strong>失败</strong> 意味着你的回复被隐藏了 — 只有你和原帖作者能看到。',
+    faq5h: '回复降权',
+    faq5b: '检测平台是否在限制你回复的传播范围 — 例如回复被排到评论区底部，或需要点击"显示更多回复"才能看到。<strong>失败</strong> 表示你的互动被人工压制了。',
+    footer: '数据来源 <a href="https://shadowban-api.yuzurisa.com" target="_blank" rel="noopener">Shadowban API</a> &mdash; 仅供参考。',
+    // JS-generated strings
+    j_enterUser: '请输入用户名。',
+    j_invalidUser: '用户名无效。只能使用字母、数字和下划线（1-15个字符）。',
+    j_notExist: '账号 @{name} 不存在或已被封禁。',
+    j_noTests: '该账号没有可用的检测结果。',
+    j_serverErr: '服务器错误 ({code})',
+    j_failErr: '检测失败，请稍后再试。',
+    r_typeahead: '搜索建议检测',
+    r_search: '搜索可见性',
+    r_ghost: '幽灵限制（回复可见性）',
+    r_reply: '回复降权检测',
+    tag_found: '正常',
+    tag_notFound: '受限',
+    tag_unknown: '未知',
+    tag_visible: '可见',
+    tag_hidden: '隐藏',
+    tag_ok: '正常',
+    tag_restricted: '受限',
+    tag_suppressed: '被压制',
+    d_typeahead_pass: '你的账号会出现在他人的搜索建议中。',
+    d_typeahead_fail: '你的账号不会出现在搜索建议中，这是常见的阴影限制指标。',
+    d_search_pass: '你的推文在搜索结果中可见。',
+    d_search_fail: '你的推文在搜索结果中被隐藏。典型的阴影限制行为。',
+    d_ghost_pass: '你的回复对所有人可见，未检测到幽灵限制。',
+    d_ghost_fail: '你的回复被隐藏了，只有你和原帖作者能看到。',
+    d_reply_pass: '你的回复未被降权，可见性正常。',
+    d_reply_fail: '你的回复被压制了 — 它们被排到评论区底部或被隐藏。',
+    d_unexpected: '异常结果: {val}',
+    d_status: '状态: {val}',
+    sc_allClear: '一切正常',
+    sc_minor: '轻微限制',
+    sc_detected: '检测到阴影限制',
+    sc_allPass: '未检测到阴影限制。全部 {n} 项检测通过。',
+    sc_someFail: '{f}/{n} 项检测发现限制。建议关注你的账号状态。',
+    sc_manyFail: '{f}/{n} 项检测表明存在阴影限制。你的账号可见性正在被限制。',
+    badge_protected: '已保护',
+    badge_suspended: '已封禁',
+    badge_noTweets: '无推文',
+    langTooltip: '切换到英文',
+  }
+};
+
+let currentLang = localStorage.getItem('sb_lang') || 'zh';
+document.documentElement.lang = currentLang;
+
+function t(key, params) {
+  let v = (LANG[currentLang] && LANG[currentLang][key]) || LANG.en[key] || key;
+  if (params) {
+    Object.keys(params).forEach(k => { v = v.replace(new RegExp('\\{'+k+'\\}','g'), params[k]); });
+  }
+  return v;
+}
+
+function applyLang() {
+  // data-i18n: innerHTML translation
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.innerHTML = t(el.getAttribute('data-i18n'));
+  });
+  // data-i18n-placeholder: placeholder translation
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  // Lang toggle button tooltip
+  document.getElementById('langBtn').title = t('langTooltip');
+  // Highlight active lang
+  document.getElementById('langIconEn').style.color = currentLang === 'en' ? '#6c5ce7' : '';
+  document.getElementById('langIconZh').style.color = currentLang === 'zh' ? '#6c5ce7' : '';
+  // Re-render results if visible
+  if (res.classList.contains('show') && window._lastData) {
+    render(window._lastData);
+  }
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.documentElement.lang = currentLang;
+  localStorage.setItem('sb_lang', currentLang);
+  applyLang();
+}
+
+// ═══════════════════════════════════════════
+//  App
+// ═══════════════════════════════════════════
+const API_BASE = 'https://shadowban-api.yuzurisa.com';
+const $ = id => document.getElementById(id);
+const sn = $('screenName'), btn = $('checkBtn');
+const errBox = $('errorBox'), errText = $('errorText');
+const pCard = $('profileCard'), av = $('avatar'), dn = $('displayName'), badges = $('statusBadges');
+const res = $('results'), sc = $('scoreCard'), sr = $('scoreRing'), sv = $('scoreValue'), sl = $('scoreLabel'), sd = $('scoreDesc');
+
+function load(v) { btn.classList.toggle('loading', v); btn.disabled = v; sn.disabled = v; }
+function eShow(m) { errText.innerHTML = m; errBox.classList.add('show'); pCard.classList.remove('show'); res.classList.remove('show'); res.innerHTML = ''; sc.classList.remove('show'); }
+function eHide() { errBox.classList.remove('show'); }
+
+function iVal(field, value) {
+  if (field === 'search') return (value === true || value === '_implied_good') ? 'pass' : value === false ? 'fail' : 'warn';
+  if (field === 'typeahead') return value === true ? 'pass' : value === false ? 'fail' : 'warn';
+  return 'neutral';
+}
+
+function render(data) {
+  const tests = data.tests;
+  if (!tests) return;
+  res.innerHTML = '';
+  let p = 0, f = 0, n = 0;
+  const tS = iVal('typeahead', tests.typeahead); n++; if (tS === 'pass') p++; else if (tS === 'fail') f++;
+  const sS = iVal('search', tests.search); n++; if (sS === 'pass') p++; else if (sS === 'fail') f++;
+  const gB = tests.ghost && tests.ghost.ban; const gS = gB ? 'fail' : 'pass'; n++; if (gS === 'pass') p++; else if (gS === 'fail') f++;
+  const mB = tests.more_replies && tests.more_replies.ban; const mS = mB ? 'fail' : 'pass'; n++; if (mS === 'pass') p++; else if (mS === 'fail') f++;
+
+  addR('person_search', tS, t('r_typeahead'), tagT(tS), descT(tS, tests.typeahead));
+  addR('search', sS, t('r_search'), tagS(sS), descS(sS, tests.search));
+  addR('visibility_off', gS, t('r_ghost'), tagG(gS), descG(gS, tests.ghost));
+  addR('reply', mS, t('r_reply'), tagM(mS), descM(mS, tests.more_replies));
+
+  res.classList.add('show'); sc.classList.add('show');
+  updateScore(p, f, n);
+  sc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function updateScore(p, f, n) {
+  if (f === 0) {
+    sr.style.setProperty('--score-deg', '360deg'); sr.className = 'score-ring all-clear'; sv.textContent = '\u2713';
+    sl.textContent = t('sc_allClear'); sd.textContent = t('sc_allPass', { n });
+  } else if (f <= 1) {
+    const deg = (p / n) * 360; sr.style.setProperty('--score-deg', deg + 'deg'); sr.className = 'score-ring partial';
+    sv.textContent = f; sl.textContent = t('sc_minor'); sd.textContent = t('sc_someFail', { f, n, s: f > 1 ? 's' : '' });
+  } else {
+    const deg = (p / n) * 360; sr.style.setProperty('--score-deg', deg + 'deg'); sr.className = 'score-ring concern';
+    sv.textContent = f; sl.textContent = t('sc_detected'); sd.textContent = t('sc_manyFail', { f, n });
+  }
+}
+
+function addR(ic, st, ti, tag, de) {
+  const d = document.createElement('div'); d.className = 'result-card';
+  d.innerHTML = '<div class="icon-wrap ' + st + '"><span class="material-icons">' + ic + '</span></div><div class="body"><div class="title">' + ti + tag + '</div><div class="desc">' + de + '</div></div>';
+  res.appendChild(d);
+}
+
+function tagT(s) { return s === 'pass' ? '<span class="tag tag-pass">' + t('tag_found') + '</span>' : s === 'fail' ? '<span class="tag tag-fail">' + t('tag_notFound') + '</span>' : '<span class="tag tag-warn">' + t('tag_unknown') + '</span>'; }
+function descT(s, v) { return s === 'pass' ? t('d_typeahead_pass') : s === 'fail' ? t('d_typeahead_fail') : t('d_unexpected', { val: JSON.stringify(v) }); }
+function tagS(s) { return s === 'pass' ? '<span class="tag tag-pass">' + t('tag_visible') + '</span>' : s === 'fail' ? '<span class="tag tag-fail">' + t('tag_hidden') + '</span>' : '<span class="tag tag-warn">' + t('tag_unknown') + '</span>'; }
+function descS(s, v) { return s === 'pass' ? t('d_search_pass') : s === 'fail' ? t('d_search_fail') : t('d_status', { val: String(v) }); }
+function tagG(s) { return s === 'pass' ? '<span class="tag tag-pass">' + t('tag_ok') + '</span>' : '<span class="tag tag-fail">' + t('tag_restricted') + '</span>'; }
+function descG(s) { return s === 'pass' ? t('d_ghost_pass') : t('d_ghost_fail'); }
+function tagM(s) { return s === 'pass' ? '<span class="tag tag-pass">' + t('tag_ok') + '</span>' : '<span class="tag tag-fail">' + t('tag_suppressed') + '</span>'; }
+function descM(s) { return s === 'pass' ? t('d_reply_pass') : t('d_reply_fail'); }
+
+async function check() {
+  const raw = sn.value.trim();
+  if (!raw) { eShow(t('j_enterUser')); sn.focus(); return; }
+  if (!/^[A-Za-z0-9_]{1,15}$/.test(raw)) { eShow(t('j_invalidUser')); return; }
+  eHide(); load(true); pCard.classList.remove('show'); res.classList.remove('show'); res.innerHTML = ''; sc.classList.remove('show');
+  try {
+    const resp = await fetch(API_BASE + '/' + encodeURIComponent(raw));
+    if (!resp.ok) { const b = await resp.json().catch(() => ({})); throw new Error(b.detail || t('j_serverErr', { code: resp.status })); }
+    const d = await resp.json();
+    if (!d.profile.exists) { eShow(t('j_notExist', { name: raw })); return; }
+    dn.textContent = d.profile.screen_name; av.textContent = d.profile.screen_name.charAt(0).toUpperCase();
+    badges.innerHTML = '';
+    if (d.profile.protected) badges.innerHTML += '<span class="badge badge-yellow">' + t('badge_protected') + '</span>';
+    if (d.profile.suspended) badges.innerHTML += '<span class="badge badge-red">' + t('badge_suspended') + '</span>';
+    if (d.profile.has_tweets === false) badges.innerHTML += '<span class="badge badge-neutral">' + t('badge_noTweets') + '</span>';
+    pCard.classList.add('show');
+    if (d.tests) { window._lastData = d; render(d); }
+    else eShow(t('j_noTests'));
+  } catch (err) { eShow(err.message || t('j_failErr')); }
+  finally { load(false); }
+}
+
+// ── Events ──
+btn.addEventListener('click', check);
+sn.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+document.getElementById('langBtn').addEventListener('click', toggleLang);
+
+// ── Init ──
+applyLang();
+</script>
+</body>
+</html>
