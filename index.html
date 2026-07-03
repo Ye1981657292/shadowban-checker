@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <title>X 账号阴影检测</title>
+<meta name="google-adsense-account" content="ca-pub-9496732194077713">
 <meta name="description" content="检测你的 X (Twitter) 账号是否被隐形限制。免费、快速、匿名。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -134,7 +135,23 @@
   footer { text-align: center; margin-top: 60px; padding: 20px 0; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); }
   footer a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
   footer a:hover { color: #a78bfa; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    /* ── Ad Placements ── */
+  .ad-container {
+    margin-top: 20px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    text-align: center;
+    min-height: 90px;
+  }
+  .ad-placeholder {
+    padding: 24px 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+  }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   @media (max-width: 600px) {
     .container { padding: 24px 16px 40px; }
     .lang-toggle { padding: 12px 16px 0; }
@@ -184,6 +201,11 @@
       <span class="label" data-i18n="checkBtn">检测</span>
       <span class="spinner"></span>
     </button>
+  </div>  </div>
+
+  <!-- AD PLACEMENT 1 — 搜索框下方 -->
+  <div class="ad-container">
+    <div class="ad-placeholder" data-i18n="adPlaceholder1">广告位</div>
   </div>
   <div class="error-box" id="errorBox">
     <span class="material-icons">error_outline</span>
@@ -205,7 +227,11 @@
     <div class="score-desc" id="scoreDesc"></div>
   </div>
 
-  <!-- FAQ -->
+  
+  <!-- AD PLACEMENT 2 — 结果下方 -->
+  <div class="ad-container">
+    <div class="ad-placeholder" data-i18n="adPlaceholder2">广告位</div>
+  </div><!-- FAQ -->
   <div class="info-section">
     <h3 data-i18n="faqTitle">了解检测结果</h3>
     <div class="info-item" onclick="this.classList.toggle('open')">
@@ -294,6 +320,8 @@ const LANG = {
     badge_suspended: 'Suspended',
     badge_noTweets: 'No Tweets',
     langTooltip: 'Switch to Chinese',
+    adPlaceholder1: '广告位',
+    adPlaceholder2: '广告位',
   },
   zh: {
     title: 'X 账号阴影检测',
@@ -351,6 +379,8 @@ const LANG = {
     badge_suspended: '已封禁',
     badge_noTweets: '无推文',
     langTooltip: '切换到英文',
+    adPlaceholder1: '广告位',
+    adPlaceholder2: '广告位',
   }
 };
 
