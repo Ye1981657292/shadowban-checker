@@ -151,21 +151,40 @@
     letter-spacing: 0.03em;
   }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  @media (max-width: 600px) {
-    .container { padding: 24px 16px 40px; }
-    .lang-toggle { padding: 12px 16px 0; }
-    header { padding: 12px 0 20px; }
-    header .logo { font-size: 1.4rem; }
-    header .logo .icon { width: 34px; height: 34px; font-size: 18px; }
-    .search-card { flex-direction: column; padding: 20px; gap: 14px; }
+  @media (max-width: 768px) {
+    .container { padding: 20px 14px 40px; }
+    .lang-toggle { padding: 10px 14px 0; }
+    header { padding: 10px 0 16px; }
+    header .logo { font-size: 1.3rem; gap: 8px; }
+    header .logo .icon { width: 32px; height: 32px; font-size: 16px; }
+    header p { font-size: 0.85rem; margin-top: 6px; }
+    .search-card { flex-direction: column; padding: 16px; gap: 12px; }
     .search-card .input-wrap { width: 100%; }
-    .search-card input { font-size: 1.1rem; }
-    .search-card .check-btn { width: 100%; justify-content: center; padding: 12px 20px; }
-    .profile-card { flex-direction: column; text-align: center; padding: 20px; }
+    .search-card input { font-size: 1rem; }
+    .search-card .check-btn { width: 100%; justify-content: center; padding: 10px 16px; font-size: 0.9rem; }
+    .profile-card { flex-direction: column; text-align: center; padding: 16px; gap: 12px; }
     .profile-card .info .status-badges { justify-content: center; }
-    .result-card { padding: 16px; gap: 12px; }
-    .score-card { padding: 24px 16px; }
-    .score-card .score-ring { width: 80px; height: 80px; font-size: 1.6rem; }
+    .profile-card .avatar { width: 44px; height: 44px; font-size: 20px; }
+    .result-card { padding: 14px; gap: 10px; }
+    .result-card .icon-wrap { width: 36px; height: 36px; font-size: 18px; }
+    .score-card { padding: 20px 14px; }
+    .score-card .score-ring { width: 72px; height: 72px; font-size: 1.4rem; }
+    .info-item { padding: 14px 16px; }
+    .info-item .info-header { font-size: 0.85rem; }
+    .info-item .info-body { font-size: 0.8rem; }
+  }
+  @media (max-width: 400px) {
+    .container { padding: 16px 10px 32px; }
+    header .logo { font-size: 1.1rem; }
+    .search-card { padding: 12px; gap: 10px; }
+    .search-card input { font-size: 0.9rem; }
+    .profile-card { padding: 12px; }
+    .profile-card .avatar { width: 38px; height: 38px; font-size: 17px; }
+    .result-card { padding: 10px; gap: 8px; }
+    .result-card .body .title { font-size: 0.85rem; }
+    .score-card { padding: 16px 10px; }
+    .score-card .score-ring { width: 64px; height: 64px; font-size: 1.2rem; }
+    header p { font-size: 0.78rem; }
   }
 </style>
 
