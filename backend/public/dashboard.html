@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XCheck 管理后台</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0a0a0f;color:#e0e0e0;min-height:100vh}
+  
+  /* Login */
+  .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#1a1a2e 0%,#0a0a0f 70%)}
+  .login-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:40px;width:380px;text-align:center}
+  .login-box h1{font-size:22px;margin-bottom:8px;color:#fff}
+  .login-box p{font-size:13px;color:#888;margin-bottom:28px}
+  .login-box input{width:100%;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:14px;margin-bottom:14px;outline:none;transition:border .2s}
+  .login-box input:focus{border-color:#6c5ce7}
+  .login-box button{width:100%;padding:12px;background:#6c5ce7;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s}
+  .login-box button:hover{background:#5a4bd1}
+  .login-error{color:#ff6b6b;font-size:13px;margin-top:12px;display:none}
+
+  /* Dashboard */
+  .dashboard{display:none}
+  .header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .header h1{font-size:18px;color:#fff}
+  .header span{font-size:13px;color:#666}
+  .header button{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#e0e0e0;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;transition:background .2s}
+  .header button:hover{background:rgba(255,255,255,0.1)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:24px 32px}
+  .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px}
+  .card .label{font-size:12px;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+  .card .value{font-size:32px;font-weight:700;color:#fff}
+  .card .sub{font-size:13px;color:#6c5ce7;margin-top:4px}
+
+  .section{padding:0 32px 24px}
+  .section h2{font-size:15px;color:#aaa;margin-bottom:16px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+
+  .chart-wrap{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;overflow-x:auto}
+  .chart-wrap canvas{width:100%!important;height:auto!important;max-height:240px}
+
+  .pages-table, .visits-table{width:100%;border-collapse:collapse;font-size:13px}
+  .pages-table th,.visits-table th{text-align:left;padding:10px 12px;color:#666;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .pages-table td,.visits-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:#ccc}
+  .pages-table tr:hover td,.visits-table tr:hover td{background:rgba(255,255,255,0.03)}
+
+  .bar{display:inline-block;height:18px;border-radius:4px;background:linear-gradient(90deg,#6c5ce7,#a29bfe);vertical-align:middle;margin-right:8px;min-width:4px}
+
+  .loading{text-align:center;padding:60px;color:#666;font-size:14px}
+  .loading .spinner{display:inline-block;width:32px;height:32px;border:3px solid rgba(255,255,255,0.06);border-top-color:#6c5ce7;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-ok{background:rgba(0,200,83,0.15);color:#00c853}
+  .badge-warn{background:rgba(255,171,0,0.15);color:#ffab00}
+
+  @media(max-width:600px){.cards{grid-template-columns:1fr 1fr;padding:16px}.section{padding:0 16px 16px}.header{padding:16px}}
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <h1>🔐 XCheck 后台</h1>
+    <p>请输入管理员账号和密码登录</p>
+    <input type="text" id="loginUser" placeholder="用户名" value="admin" autocomplete="username">
+    <input type="password" id="loginPass" placeholder="密码" autocomplete="current-password">
+    <button onclick="doLogin()">登录</button>
+    <div class="login-error" id="loginError">用户名或密码错误</div>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard" id="dashboard">
+  <div class="header">
+    <div>
+      <h1>📊 XCheck 访问统计</h1>
+      <span id="lastUpdate"></span>
+    </div>
+    <div>
+      <button onclick="refreshStats()" style="margin-right:8px">🔄 刷新</button>
+      <button onclick="doLogout()">退出登录</button>
+    </div>
+  </div>
+
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div>加载数据中...</div>
+  </div>
+
+  <div id="content" style="display:none">
+    <div class="cards">
+      <div class="card"><div class="label">总访问量</div><div class="value" id="statTotal">-</div><div class="sub" id="statTotalSub"></div></div>
+      <div class="card"><div class="label">今日访问</div><div class="value" id="statToday">-</div><div class="sub" id="statTodaySub"></div></div>
+      <div class="card"><div class="label">独立访客</div><div class="value" id="statUnique">-</div><div class="sub">总IP数</div></div>
+      <div class="card"><div class="label">今日访客</div><div class="value" id="statUniqueToday">-</div><div class="sub">独立IP</div></div>
+    </div>
+
+    <div class="section">
+      <h2>📈 每日访问趋势</h2>
+      <div class="chart-wrap"><canvas id="visitChart"></canvas></div>
+    </div>
+
+    <div class="section">
+      <h2>📄 页面排行</h2>
+      <table class="pages-table" id="pagesTable">
+        <thead><tr><th>页面</th><th>访问次数</th><th>占比</th></tr></thead>
+        <tbody id="pagesBody"></tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>🕐 最近访问</h2>
+      <div style="overflow-x:auto">
+        <table class="visits-table" id="visitsTable">
+          <thead><tr><th>时间</th><th>页面</th><th>IP</th><th>来源</th></tr></thead>
+          <tbody id="visitsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Backend URL ──
+var BACKEND_URL = localStorage.getItem("xcheck_backend_url") || "";
+
+function getApiUrl(path) {
+  if (BACKEND_URL) return BACKEND_URL + path;
+  return window.location.origin + path;
+}
+
+// ── Auth ──
+var token = localStorage.getItem("xcheck_token");
+
+function doLogin() {
+  var user = document.getElementById("loginUser").value;
+  var pass = document.getElementById("loginPass").value;
+  var errEl = document.getElementById("loginError");
+  errEl.style.display = "none";
+
+  fetch(getApiUrl("/api/login"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: user, password: pass })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.ok) {
+      token = data.token;
+      localStorage.setItem("xcheck_token", token);
+      showDashboard();
+      refreshStats();
+    } else {
+      errEl.textContent = data.error || "登录失败";
+      errEl.style.display = "block";
+    }
+  })
+  .catch(function() {
+    errEl.textContent = "无法连接到服务器，请检查后端是否运行";
+    errEl.style.display = "block";
+  });
+}
+
+function doLogout() {
+  token = null;
+  localStorage.removeItem("xcheck_token");
+  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("loginScreen").style.display = "flex";
+}
+
+// ── Fetch Stats ──
+function fetchStats() {
+  return fetch(getApiUrl("/api/stats"), {
+    headers: { "Authorization": "Bearer " + token }
+  }).then(function(r) {
+    if (r.status === 401) { doLogout(); throw new Error("未授权"); }
+    return r.json();
+  });
+}
+
+function refreshStats() {
+  document.getElementById("loading").style.display = "block";
+  document.getElementById("content").style.display = "none";
+  fetchStats().then(function(stats) {
+    renderStats(stats);
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("content").style.display = "block";
+    document.getElementById("lastUpdate").textContent = "更新于 " + new Date().toLocaleTimeString("zh-CN");
+  }).catch(function(e) {
+    if (e.message !== "未授权") {
+      document.getElementById("loading").innerHTML = '<div style="color:#ff6b6b">❌ 加载失败: ' + e.message + '</div>';
+    }
+  });
+}
+
+// ── Render ──
+function renderStats(s) {
+  // Cards
+  document.getElementById("statTotal").textContent = s.total.toLocaleString();
+  document.getElementById("statTotalSub").textContent = "累计访问";
+  document.getElementById("statToday").textContent = s.todayVisits.toLocaleString();
+  document.getElementById("statTodaySub").textContent = "今日";
+  document.getElementById("statUnique").textContent = s.uniqueIPs.toLocaleString();
+  document.getElementById("statUniqueToday").textContent = s.uniqueToday.toLocaleString();
+
+  // Chart
+  drawChart(s.dailyVisits);
+
+  // Pages table
+  var pb = document.getElementById("pagesBody");
+  pb.innerHTML = "";
+  s.pageBreakdown.forEach(function(p) {
+    var pct = (p.count / s.total * 100).toFixed(1);
+    pb.innerHTML += '<tr><td>' + escHtml(p.page) + '</td><td>' + p.count + '</td><td><span class="bar" style="width:' + Math.max(pct * 2, 4) + 'px"></span>' + pct + '%</td></tr>';
+  });
+
+  // Recent visits
+  var vb = document.getElementById("visitsBody");
+  vb.innerHTML = "";
+  s.recent.forEach(function(v) {
+    var time = v.timestamp ? new Date(v.timestamp).toLocaleString("zh-CN") : "-";
+    var ip = v.ip || "-";
+    var ref = v.referrer ? escHtml(v.referrer.substring(0, 50)) : "-";
+    vb.innerHTML += '<tr><td style="white-space:nowrap">' + time + '</td><td>' + escHtml(v.page) + '</td><td style="white-space:nowrap">' + escHtml(ip) + '</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis">' + ref + '</td></tr>';
+  });
+}
+
+function drawChart(daily) {
+  var canvas = document.getElementById("visitChart");
+  var ctx = canvas.getContext("2d");
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = Math.max(rect.width - 40, 600) * dpr;
+  canvas.height = 240 * dpr;
+  canvas.style.width = Math.max(rect.width - 40, 600) + "px";
+  canvas.style.height = "240px";
+  ctx.scale(dpr, dpr);
+  var w = canvas.width / dpr;
+  var h = canvas.height / dpr;
+
+  var pad = { top: 20, right: 20, bottom: 30, left: 40 };
+  var cw = w - pad.left - pad.right;
+  var ch = h - pad.top - pad.bottom;
+
+  ctx.clearRect(0, 0, w, h);
+
+  if (!daily || daily.length < 2) {
+    ctx.fillStyle = "#555";
+    ctx.font = "14px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("数据不足，请等待更多访问", w/2, h/2);
+    return;
+  }
+
+  var maxVal = Math.max(...daily.map(function(d) { return d.count; }), 1);
+  var barW = cw / daily.length * 0.7;
+
+  ctx.font = "11px sans-serif";
+  ctx.textAlign = "center";
+
+  daily.forEach(function(d, i) {
+    var x = pad.left + (i / daily.length) * cw + (cw / daily.length - barW) / 2;
+    var bh = (d.count / maxVal) * ch;
+    var y = pad.top + ch - bh;
+
+    // bar
+    var grad = ctx.createLinearGradient(x, y, x, pad.top + ch);
+    grad.addColorStop(0, "#6c5ce7");
+    grad.addColorStop(1, "#a29bfe");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect(x, y, barW, bh, [4, 4, 0, 0]);
+    ctx.fill();
+
+    // label
+    if (i % Math.max(1, Math.floor(daily.length / 6)) === 0 || i === daily.length - 1) {
+      ctx.fillStyle = "#666";
+      ctx.fillText(d.date.slice(5), x + barW/2, pad.top + ch + 18);
+    }
+  });
+}
+
+function escHtml(s) {
+  if (!s) return "-";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// ── Init ──
+function showDashboard() {
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+}
+
+// Check if already logged in
+if (token) {
+  fetch(getApiUrl("/api/verify"), {
+    headers: { "Authorization": "Bearer " + token }
+  })
+  .then(function(r) {
+    if (r.ok) {
+      showDashboard();
+      refreshStats();
+    } else {
+      localStorage.removeItem("xcheck_token");
+    }
+  })
+  .catch(function() {
+    // Backend may not be running, just show login
+  });
+}
+</script>
+</body>
+</html>
