@@ -1,2 +1,2 @@
-# shadowban-checker
-test
+# X Shadowban Checker
+Backend server for xcheckai.online
