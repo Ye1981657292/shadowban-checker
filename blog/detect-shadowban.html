@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Tell If Your X Account Is Shadowbanned | X Shadowban Checker</title>
+<meta name="description" content="Practical guide on how to detect if your X (Twitter) account is shadowbanned. Learn the signs, manual testing methods, and how to use detection tools effectively.">
+<meta property="og:title" content="How to Tell If Your X Account Is Shadowbanned">
+<meta property="og:description" content="Step-by-step guide to detecting X shadowbans. Covers warning signs, manual checks, and automated detection tools.">
+<meta property="og:url" content="https://xcheckai.online/blog/detect-shadowban.html">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://xcheckai.online/blog/detect-shadowban.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f; --bg-card: rgba(255,255,255,0.04); --bg-card-hover: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --text: #e4e4ed; --text-muted: #8b8b9d; --text-dim: #5c5c72;
+    --accent: #6c5ce7; --accent-glow: rgba(108,92,231,0.3);
+    --green: #00d68f; --red: #ff6b6b; --yellow: #ffd93d;
+    --radius: 16px; --radius-sm: 10px;
+    --font: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.8; overflow-x: hidden; }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 24px 60px; }
+  .lang-toggle { display: flex; justify-content: flex-end; padding: 16px 24px 0; max-width: 780px; margin: 0 auto; }
+  .lang-btn { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; cursor: pointer; font-family: var(--font); font-size: 0.78rem; font-weight: 500; color: var(--text-muted); display: flex; align-items: center; gap: 4px; transition: background 0.3s, border-color 0.3s; }
+  .lang-btn:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+  .lang-btn .active { color: var(--accent); font-weight: 700; }
+  .lang-divider { color: var(--text-dim); }
+  .nav-bar { display: flex; align-items: center; gap: 20px; padding: 16px 0; margin-bottom: 20px; }
+  .nav-bar a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-bar a:hover { color: var(--accent); }
+  .nav-bar .home-link { font-weight: 600; color: var(--text); }
+  .nav-bar .home-link:hover { color: var(--accent); }
+  article h1 { font-size: 2rem; font-weight: 800; line-height: 1.3; margin: 0 0 12px; background: linear-gradient(135deg,#fff 0%,#a78bfa 50%,#6c5ce7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .article-meta { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: flex; gap: 16px; align-items: center; }
+  .article-meta .read-time { color: var(--text-muted); font-size: 0.8rem; }
+  .toc { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; margin: 24px 0 32px; }
+  .toc h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; }
+  .toc ol { list-style: none; padding: 0; }
+  .toc li { margin-bottom: 8px; font-size: 0.88rem; }
+  .toc li a { color: var(--accent); text-decoration: none; }
+  .toc li a:hover { color: #a78bfa; text-decoration: underline; }
+  article h2 { font-size: 1.4rem; font-weight: 700; margin: 40px 0 16px; color: var(--text); line-height: 1.4; }
+  article h3 { font-size: 1.1rem; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+  article p { margin-bottom: 16px; color: var(--text-muted); font-size: 0.95rem; }
+  article strong { color: var(--text); }
+  article ul, article ol { margin: 0 0 16px 20px; color: var(--text-muted); font-size: 0.95rem; }
+  article li { margin-bottom: 8px; }
+  .highlight-box { background: rgba(108,92,231,0.08); border: 1px solid rgba(108,92,231,0.2); border-radius: var(--radius-sm); padding: 16px 20px; margin: 20px 0; }
+  .highlight-box p { margin-bottom: 0; }
+  .warning-box { background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.2); border-radius: var(--radius-sm); padding: 16px 20px; margin: 20px 0; }
+  .warning-box strong { color: var(--red); }
+  .warning-box p { margin-bottom: 0; color: var(--text-muted); }
+  .success-box { background: rgba(0,214,143,0.08); border: 1px solid rgba(0,214,143,0.2); border-radius: var(--radius-sm); padding: 16px 20px; margin: 20px 0; }
+  .success-box p { margin-bottom: 0; color: var(--text-muted); }
+  .step-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 14px; }
+  .step-card .step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 700; margin-right: 10px; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.88rem; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .cta-section { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin: 40px 0 0; text-align: center; }
+  .cta-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .cta-section p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg,#6c5ce7,#a78bfa); border: none; color: #fff; font-family: var(--font); font-weight: 600; font-size: 0.95rem; padding: 12px 28px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+  .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+  footer { text-align: center; margin-top: 60px; padding: 20px 0; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { color: #a78bfa; }
+  @media (max-width: 768px) {
+    .container { padding: 20px 14px 40px; }
+    article h1 { font-size: 1.5rem; }
+    article h2 { font-size: 1.2rem; }
+    .step-card { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" id="langBtn" title="Switch to Chinese">
+    <span class="lang-icon" id="langIconEn">EN</span><span class="lang-divider">|</span><span class="lang-icon" id="langIconZh">中文</span>
+  </button>
+</div>
+<div class="container">
+  <nav class="nav-bar">
+    <a href="/" class="home-link">&#8592; <span data-i18n="home">Home</span></a>
+    <a href="/blog/"><span data-i18n="blog">Blog</span></a>
+  </nav>
+  <article>
+    <h1 data-i18n="title">How to Tell if Your X Account Is Shadowbanned</h1>
+    <div class="article-meta">
+      <span class="date">&#128197; <span data-i18n="date">Published July 17, 2026</span></span>
+      <span class="read-time">&#128337; <span data-i18n="readTime">10 min read</span></span>
+    </div>
+
+    <div class="toc">
+      <h3 data-i18n="tocTitle">Table of Contents</h3>
+      <ol>
+        <li><a href="#why-hard" data-i18n="toc1">Why Shadowbans Are Hard to Detect</a></li>
+        <li><a href="#warning-signs" data-i18n="toc2">7 Warning Signs</a></li>
+        <li><a href="#manual" data-i18n="toc3">Manual Detection Methods</a></li>
+        <li><a href="#automated" data-i18n="toc4">Using Automated Detection Tools</a></li>
+        <li><a href="#next" data-i18n="toc5">What to Do After Detection</a></li>
+      </ol>
+    </div>
+
+    <section id="why-hard">
+      <h2 data-i18n="s1Title">Why Shadowbans Are Difficult to Detect</h2>
+      <p data-i18n="s1p1">The most insidious aspect of a shadowban is its invisibility. Unlike a suspension or a formal warning, a shadowban is designed to be undetectable from the affected user&rsquo;s perspective. Your account functions normally: you can post tweets, reply to others, send direct messages, follow new accounts, and see all your metrics. Nothing on your end suggests anything is wrong.</p>
+      <p data-i18n="s1p2">This creates a dangerous feedback loop. You might notice decreased engagement but attribute it to algorithm changes, uninteresting content, or a temporary slump. Days or weeks can pass while you continue creating content that nobody sees, without ever realizing your account has been restricted.</p>
+      <div class="warning-box">
+        <p><strong data-i18n="warning">Critical:</strong> <span data-i18n="s1warning">Many users with shadowbans continue posting for weeks without knowing, wondering why their engagement has dropped. Early detection is essential to minimize the impact on your account&rsquo;s reach and growth.</span></p>
+      </div>
+    </section>
+
+    <section id="warning-signs">
+      <h2 data-i18n="s2Title">7 Warning Signs Your Account Might Be Shadowbanned</h2>
+      <p data-i18n="s2p1">While no single sign is definitive, the presence of multiple indicators strongly suggests a shadowban is in effect:</p>
+
+      <div class="step-card">
+        <p><span class="step-num">1</span> <strong data-i18n="s2s1t">Sudden Engagement Drop</strong> <span data-i18n="s2s1d">Your average likes, retweets, and replies per post drop by 60% or more overnight, despite maintaining similar posting frequency and content quality.</span></p>
+      </div>
+      <div class="step-card">
+        <p><span class="step-num">2</span> <strong data-i18n="s2s2t">No Search Suggestions</strong> <span data-i18n="s2s2d">Your account does not appear in X&rsquo;s autocomplete suggestions when other users type your handle into the search bar.</span></p>
+      </div>
+      <div class="step-card">
+        <p><span class="step-num">3</span> <strong data-i18n="s2s3t">Replies Receive Zero Engagement</strong> <span data-i18n="s2s3d">Your replies to popular accounts or threads consistently get no likes or responses, even when you reply early with relevant, high-quality content.</span></p>
+      </div>
+      <div class="step-card">
+        <p><span class="step-num">4</span> <strong data-i18n="s2s4t">Hashtag Impressions Drop to Zero</strong> <span data-i18n="s2s4d">Posts with hashtags that used to generate significant impressions from search now show zero or near-zero hashtag impressions in your analytics.</span></p>
+      </div>
+      <div class="step-card">
+        <p><span class="step-num">5</span> <strong data-i18n="s2s5t">Reduced Follower Growth</strong> <span data-i18n="s2s5d">New follower acquisition slows dramatically or stops entirely, even when you are posting content that previously attracted followers.</span></p>
+      </div>
+      <div class="step-card">
+        <p><span class="step-num">6</span> <strong data-i18n="s2s6t">Friend Cannot Find Your Content</strong> <span data-i18n="s2s6d">When you ask a friend to search for a specific tweet or your profile, they cannot find it even with exact keywords.</span></p>
+      </div>
+      <div class="step-card">
+        <p><span class="step-num">7</span> <strong data-i18n="s2s7t">Low Impressions Despite High Follower Count</strong> <span data-i18n="s2s7d">Your analytics show a persistent mismatch between your follower count and your per-post impressions, indicating that your content is not being distributed to your audience.</span></p>
+      </div>
+    </section>
+
+    <section id="manual">
+      <h2 data-i18n="s3Title">Manual Detection Methods</h2>
+      <p data-i18n="s3p1">If you want to investigate manually before using a tool, here are the most effective self-checks:</p>
+
+      <h3 data-i18n="s3h1">The Search Check</h3>
+      <p data-i18n="s3p2">Log out of X completely, or open an incognito/private browser window. Navigate to X and search for a unique phrase from one of your recent tweets. If your tweet does not appear in the search results, your search visibility is likely restricted. Repeat this test with different tweets and keywords to confirm.</p>
+
+      <h3 data-i18n="s3h2">The Suggestion Check</h3>
+      <p data-i18n="s3p3">Ask 2-3 friends or colleagues who do not follow you to type your handle into X&rsquo;s search bar. Ask them to note whether your account appears in the dropdown suggestions. If none of them see you in suggestions, a typeahead ban is likely active.</p>
+
+      <h3 data-i18n="s3h3">The Reply Visibility Check</h3>
+      <p data-i18n="s3p4">Find a popular tweet from a verified account and reply to it with a simple, non-controversial comment. Then ask friends who follow different types of accounts to check whether they can see your reply in the thread. If the reply is consistently invisible to others, you may have a ghost ban.</p>
+
+      <h3 data-i18n="s3h4">The Engagement Baseline Check</h3>
+      <p data-i18n="s3p5">Review your X analytics and compare your current engagement metrics to a 30-day average from before the suspected shadowban. A persistent drop of 50% or more across all metrics is a strong indicator that something beyond normal fluctuation is occurring.</p>
+
+      <div class="highlight-box">
+        <p><strong data-i18n="note">Note:</strong> <span data-i18n="s3note">Manual checks are time-consuming, require coordination with other people, and can only detect certain types of restrictions. For a complete picture, use an automated detection tool.</span></p>
+      </div>
+    </section>
+
+    <section id="automated">
+      <h2 data-i18n="s4Title">Using Automated Detection Tools</h2>
+      <p data-i18n="s4p1">Automated shadowban detection tools provide the most reliable, comprehensive, and instant results. Here is how they work and why they are superior to manual testing:</p>
+
+      <h3 data-i18n="s4h1">How Detection Tools Work</h3>
+      <p data-i18n="s4p2">Detection tools like our <a href="/" style="color:var(--accent)">X Shadowban Checker</a> interact with X&rsquo;s API and public endpoints to test each restriction type programmatically. The tool checks:</p>
+      <ul>
+        <li data-i18n="s4li1">Whether your account appears in search suggestions (typeahead)</li>
+        <li data-i18n="s4li2">Whether your tweets appear in search results</li>
+        <li data-i18n="s4li3">Whether your replies are visible to third parties</li>
+        <li data-i18n="s4li4">Whether your replies are being deboosted in threads</li>
+      </ul>
+
+      <h3 data-i18n="s4h2">Why Use a Tool</h3>
+      <ul>
+        <li data-i18n="s4li5"><strong>Speed:</strong> Results in seconds, no coordination needed</li>
+        <li data-i18n="s4li6"><strong>Comprehensiveness:</strong> Tests all four restriction types simultaneously</li>
+        <li data-i18n="s4li7"><strong>Objectivity:</strong> Eliminates the variable of X&rsquo;s personalized search results</li>
+        <li data-i18n="s4li8"><strong>Anonymity:</strong> No login required, your privacy is protected</li>
+        <li data-i18n="s4li9"><strong>Tracking:</strong> Get a numeric score to monitor changes over time</li>
+      </ul>
+
+      <div class="success-box">
+        <p><strong data-i18n="recommend">Recommended:</strong> <span data-i18n="s4recommend">Check your account now with our <a href="/" style="color:var(--accent)">free X Shadowban Checker</a>. It tests all four restriction types, provides a clear score from 0 to 100, and takes only seconds.</span></p>
+      </div>
+    </section>
+
+    <section id="next">
+      <h2 data-i18n="s5Title">What to Do After Detecting a Shadowban</h2>
+      <p data-i18n="s5p1">If your checks confirm that you have been shadowbanned, do not panic. Follow these steps:</p>
+      <ol>
+        <li data-i18n="s5li1"><strong>Stop triggering behavior:</strong> Immediately cease any activity that might have caused the ban, such as rapid following/unfollowing, posting duplicate content, or using automation tools.</li>
+        <li data-i18n="s5li2"><strong>Review your recent posts:</strong> Look for any tweets that may have violated X&rsquo;s policies. Delete or archive questionable content.</li>
+        <li data-i18n="s5li3"><strong>Reduce posting frequency:</strong> Post less frequently for 3-7 days. Focus on quality over quantity.</li>
+        <li data-i18n="s5li4"><strong>Engage naturally:</strong> Spend time reading and engaging with others&rsquo; content without pushing your own agenda.</li>
+        <li data-i18n="s5li5"><strong>Re-check regularly:</strong> Use the detection tool every few days to monitor whether restrictions have been lifted.</li>
+      </ol>
+      <div class="highlight-box">
+        <p><strong data-i18n="remember">Remember:</strong> <span data-i18n="s5remember">Most shadowbans are temporary and resolve within 1-3 weeks. The key is early detection and prompt correction of triggering behaviors.</span></p>
+      </div>
+    </section>
+  </article>
+
+  <div class="cta-section">
+    <h3 data-i18n="ctaTitle">Check Your Account Now</h3>
+    <p data-i18n="ctaDesc">Stop wondering and start knowing. Our free tool checks all shadowban types in seconds.</p>
+    <a href="/" class="cta-btn">&#128270; <span data-i18n="ctaBtn">Check My Account</span></a>
+  </div>
+
+  <a href="/blog/" class="back-link">&#8592; <span data-i18n="back">Back to Blog</span></a>
+
+  <footer>
+    <span data-i18n="footer">&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; Free shadowban detection tool. <a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">Privacy</a></span>
+  </footer>
+</div>
+
+<script>
+const LANG = {
+  en: {
+    home: 'Home', blog: 'Blog',
+    title: 'How to Tell if Your X Account Is Shadowbanned',
+    date: 'Published July 17, 2026',
+    readTime: '10 min read',
+    tocTitle: 'Table of Contents',
+    toc1: 'Why Shadowbans Are Hard to Detect',
+    toc2: '7 Warning Signs',
+    toc3: 'Manual Detection Methods',
+    toc4: 'Using Automated Detection Tools',
+    toc5: 'What to Do After Detection',
+    s1Title: 'Why Shadowbans Are Difficult to Detect',
+    s1p1: 'The most insidious aspect of a shadowban is its invisibility. Unlike a suspension or a formal warning, a shadowban is designed to be undetectable from the affected user\u2019s perspective. Your account functions normally: you can post tweets, reply to others, send direct messages, follow new accounts, and see all your metrics. Nothing on your end suggests anything is wrong.',
+    s1p2: 'This creates a dangerous feedback loop. You might notice decreased engagement but attribute it to algorithm changes, uninteresting content, or a temporary slump. Days or weeks can pass while you continue creating content that nobody sees, without ever realizing your account has been restricted.',
+    warning: 'Critical:',
+    s1warning: 'Many users with shadowbans continue posting for weeks without knowing, wondering why their engagement has dropped. Early detection is essential to minimize the impact on your account\u2019s reach and growth.',
+    s2Title: '7 Warning Signs Your Account Might Be Shadowbanned',
+    s2p1: 'While no single sign is definitive, the presence of multiple indicators strongly suggests a shadowban is in effect:',
+    s2s1t: 'Sudden Engagement Drop',
+    s2s1d: 'Your average likes, retweets, and replies per post drop by 60% or more overnight, despite maintaining similar posting frequency and content quality.',
+    s2s2t: 'No Search Suggestions',
+    s2s2d: 'Your account does not appear in X\u2019s autocomplete suggestions when other users type your handle into the search bar.',
+    s2s3t: 'Replies Receive Zero Engagement',
+    s2s3d: 'Your replies to popular accounts or threads consistently get no likes or responses, even when you reply early with relevant, high-quality content.',
+    s2s4t: 'Hashtag Impressions Drop to Zero',
+    s2s4d: 'Posts with hashtags that used to generate significant impressions from search now show zero or near-zero hashtag impressions in your analytics.',
+    s2s5t: 'Reduced Follower Growth',
+    s2s5d: 'New follower acquisition slows dramatically or stops entirely, even when you are posting content that previously attracted followers.',
+    s2s6t: 'Friend Cannot Find Your Content',
+    s2s6d: 'When you ask a friend to search for a specific tweet or your profile, they cannot find it even with exact keywords.',
+    s2s7t: 'Low Impressions Despite High Follower Count',
+    s2s7d: 'Your analytics show a persistent mismatch between your follower count and your per-post impressions, indicating that your content is not being distributed to your audience.',
+    s3Title: 'Manual Detection Methods',
+    s3p1: 'If you want to investigate manually before using a tool, here are the most effective self-checks:',
+    s3h1: 'The Search Check',
+    s3p2: 'Log out of X completely, or open an incognito/private browser window. Navigate to X and search for a unique phrase from one of your recent tweets. If your tweet does not appear in the search results, your search visibility is likely restricted. Repeat this test with different tweets and keywords to confirm.',
+    s3h2: 'The Suggestion Check',
+    s3p3: 'Ask 2-3 friends or colleagues who do not follow you to type your handle into X\u2019s search bar. Ask them to note whether your account appears in the dropdown suggestions. If none of them see you in suggestions, a typeahead ban is likely active.',
+    s3h3: 'The Reply Visibility Check',
+    s3p4: 'Find a popular tweet from a verified account and reply to it with a simple, non-controversial comment. Then ask friends who follow different types of accounts to check whether they can see your reply in the thread. If the reply is consistently invisible to others, you may have a ghost ban.',
+    s3h4: 'The Engagement Baseline Check',
+    s3p5: 'Review your X analytics and compare your current engagement metrics to a 30-day average from before the suspected shadowban. A persistent drop of 50% or more across all metrics is a strong indicator that something beyond normal fluctuation is occurring.',
+    note: 'Note:',
+    s3note: 'Manual checks are time-consuming, require coordination with other people, and can only detect certain types of restrictions. For a complete picture, use an automated detection tool.',
+    s4Title: 'Using Automated Detection Tools',
+    s4p1: 'Automated shadowban detection tools provide the most reliable, comprehensive, and instant results. Here is how they work and why they are superior to manual testing:',
+    s4h1: 'How Detection Tools Work',
+    s4p2: 'Detection tools like our X Shadowban Checker interact with X\u2019s API and public endpoints to test each restriction type programmatically. The tool checks:',
+    s4li1: 'Whether your account appears in search suggestions (typeahead)',
+    s4li2: 'Whether your tweets appear in search results',
+    s4li3: 'Whether your replies are visible to third parties',
+    s4li4: 'Whether your replies are being deboosted in threads',
+    s4h2: 'Why Use a Tool',
+    s4li5: '<strong>Speed:</strong> Results in seconds, no coordination needed',
+    s4li6: '<strong>Comprehensiveness:</strong> Tests all four restriction types simultaneously',
+    s4li7: '<strong>Objectivity:</strong> Eliminates the variable of X\u2019s personalized search results',
+    s4li8: '<strong>Anonymity:</strong> No login required, your privacy is protected',
+    s4li9: '<strong>Tracking:</strong> Get a numeric score to monitor changes over time',
+    recommend: 'Recommended:',
+    s4recommend: 'Check your account now with our <a href="/" style="color:var(--accent)">free X Shadowban Checker</a>. It tests all four restriction types, provides a clear score from 0 to 100, and takes only seconds.',
+    s5Title: 'What to Do After Detecting a Shadowban',
+    s5p1: 'If your checks confirm that you have been shadowbanned, do not panic. Follow these steps:',
+    s5li1: '<strong>Stop triggering behavior:</strong> Immediately cease any activity that might have caused the ban, such as rapid following/unfollowing, posting duplicate content, or using automation tools.',
+    s5li2: '<strong>Review your recent posts:</strong> Look for any tweets that may have violated X\u2019s policies. Delete or archive questionable content.',
+    s5li3: '<strong>Reduce posting frequency:</strong> Post less frequently for 3-7 days. Focus on quality over quantity.',
+    s5li4: '<strong>Engage naturally:</strong> Spend time reading and engaging with others\u2019 content without pushing your own agenda.',
+    s5li5: '<strong>Re-check regularly:</strong> Use the detection tool every few days to monitor whether restrictions have been lifted.',
+    remember: 'Remember:',
+    s5remember: 'Most shadowbans are temporary and resolve within 1-3 weeks. The key is early detection and prompt correction of triggering behaviors.',
+    ctaTitle: 'Check Your Account Now',
+    ctaDesc: 'Stop wondering and start knowing. Our free tool checks all shadowban types in seconds.',
+    ctaBtn: 'Check My Account',
+    back: 'Back to Blog',
+    footer: '&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; Free shadowban detection tool. <a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">Privacy</a>'
+  },
+  zh: {
+    home: '首页', blog: '博客文章',
+    title: '如何判断你的 X 账号是否被隐形限流',
+    date: '发布于 2026 年 7 月 17 日',
+    readTime: '阅读时间约 10 分钟',
+    tocTitle: '目录',
+    toc1: '为什么 Shadowban 难以察觉',
+    toc2: '7 个预警信号',
+    toc3: '手动检测方法',
+    toc4: '使用自动化检测工具',
+    toc5: '检测后应该怎么做',
+    s1Title: '为什么 Shadowban 难以察觉',
+    s1p1: 'Shadowban 最阴险的地方在于它的不可见性。与封禁或正式警告不同，shadowban 被设计成从受影响用户的角度无法察觉。你的账号功能正常：你可以发推文、回复他人、发送私信、关注新账号，并且看到你所有的统计数据。你这边没有任何东西表明出了问题。',
+    s1p2: '这造成了一个危险的反馈循环。你可能注意到互动下降，但将其归因于算法变化、内容不够有趣或暂时的低潮。几天甚至几周过去了，你继续创作者没有人看到的内容，却从未意识到你的账号已被限制。',
+    warning: '关键提示：',
+    s1warning: '许多被 shadowban 的用户无知地继续发帖数周，奇怪为什么互动量下降了。早期检测对于最小化对你账号覆盖范围和成长的影响至关重要。',
+    s2Title: '7 个预警信号：你的账号可能被 Shadowban',
+    s2p1: '虽然没有单一信号是决定性的，但多个指标同时出现强烈表明 shadowban 正在生效：',
+    s2s1t: '互动量突然下降',
+    s2s1d: '尽管保持类似的发帖频率和内容质量，你的平均点赞、转发和回复量一夜之间下降了 60% 或更多。',
+    s2s2t: '没有搜索建议',
+    s2s2d: '当其他用户在搜索栏输入你的账号名时，你的账号不出现在 X 的自动完成建议中。',
+    s2s3t: '回复获得零互动',
+    s2s3d: '你对热门账号或线程的回复持续没有获得点赞或回应，即使你的回复很及时且内容相关高质量。',
+    s2s4t: '话题标签展示量降为零',
+    s2s4d: '过去使用话题标签能产生大量搜索展示量的帖子，现在在分析数据中显示为零或接近零的话题标签展示量。',
+    s2s5t: '粉丝增长减少',
+    s2s5d: '新粉丝获取速度大幅减缓或完全停止，即使你发布的内容过去曾吸引粉丝关注。',
+    s2s6t: '朋友找不到你的内容',
+    s2s6d: '当你请朋友搜索特定的推文或你的个人资料时，他们即使使用精确的关键词也找不到。',
+    s2s7t: '高粉丝数量但低展示量',
+    s2s7d: '你的分析数据显示粉丝数量与每条推文的展示量之间存在持续的差距，表明你的内容没有被分发给你的受众。',
+    s3Title: '手动检测方法',
+    s3p1: '如果你想在使用工具前手动调查，以下是最有效的自查方法：',
+    s3h1: '搜索检测',
+    s3p2: '完全登出 X，或打开无痕/隐私浏览器窗口。进入 X 并搜索你最近一条推文中的独特短语。如果推文没有出现在搜索结果中，你的搜索可见性可能被限制。用不同的推文和关键词重复此测试以确认。',
+    s3h2: '搜索建议检测',
+    s3p3: '请 2-3 个没有关注你的朋友在 X 的搜索栏输入你的账号名。请他们注意你的账号是否出现在下拉建议中。如果没有人看到你在建议中，typeahead 限制很可能已激活。',
+    s3h3: '回复可见性检测',
+    s3p4: '找到一个来自已验证账号的热门推文，回复一个简单、无争议的评论。然后请关注不同类型账号的朋友检查他们是否能在线程中看到你的回复。如果回复对其他人始终不可见，你可能有幽灵限制。',
+    s3h4: '互动基线检测',
+    s3p5: '查看你的 X 分析数据，将当前的互动指标与疑似 shadowban 之前的 30 天平均值进行比较。所有指标持续下降 50% 或更多是强烈指标，表明存在超出正常波动的情况。',
+    note: '注意：',
+    s3note: '手动检查耗时，需要与他人协调，且只能检测某些类型的限制。要获得完整图像，请使用自动化检测工具。',
+    s4Title: '使用自动化检测工具',
+    s4p1: '自动化 shadowban 检测工具提供最可靠、最全面和最即时的结果。以下是它们的工作原理以及为什么它们优于手动测试：',
+    s4h1: '检测工具如何工作',
+    s4p2: '像我们的 X Shadowban Checker 这样的检测工具通过编程方式与 X 的 API 和公共端点交互来测试每种限制类型。该工具检查：',
+    s4li1: '你的账号是否出现在搜索建议中（typeahead）',
+    s4li2: '你的推文是否出现在搜索结果中',
+    s4li3: '你的回复是否对第三方可见',
+    s4li4: '你的回复是否在线程中被降权',
+    s4h2: '为什么使用工具',
+    s4li5: '<strong>速度：</strong> 几秒出结果，无需协调',
+    s4li6: '<strong>全面性：</strong> 同时测试所有四种限制类型',
+    s4li7: '<strong>客观性：</strong> 消除了 X 个性化搜索结果变量',
+    s4li8: '<strong>匿名性：</strong> 无需登录，保护隐私',
+    s4li9: '<strong>追踪：</strong> 获取数字评分以监控随时间的变化',
+    recommend: '推荐：',
+    s4recommend: '立即使用我们的 <a href="/" style="color:var(--accent)">免费的 X Shadowban Checker</a> 检测你的账号。它测试所有四种限制类型，提供 0 到 100 的清晰评分，只需几秒钟。',
+    s5Title: '检测后应该怎么做',
+    s5p1: '如果确认你的账号被 shadowban，不要慌张。按以下步骤操作：',
+    s5li1: '<strong>停止触发行为：</strong> 立即停止可能导致限制的活动，如快速关注/取消关注、发布重复内容或使用自动化工具。',
+    s5li2: '<strong>回顾近期帖子：</strong> 查找可能违反 X 政策的推文。删除或存档有问题的内容。',
+    s5li3: '<strong>降低发帖频率：</strong> 3-7 天内减少发帖频率。注重质量而非数量。',
+    s5li4: '<strong>自然互动：</strong> 花时间阅读和与他人内容互动，不要强推自己的议程。',
+    s5li5: '<strong>定期重新检测：</strong> 每隔几天使用检测工具监控限制是否已解除。',
+    remember: '记住：',
+    s5remember: '大多数 shadowban 是暂时的，会在 1-3 周内自行解决。关键在于早期检测和及时纠正触发行为。',
+    ctaTitle: '立即检测你的账号',
+    ctaDesc: '停止猜测，开始确认。我们的免费工具几秒内检测所有 shadowban 类型。',
+    ctaBtn: '检测我的账号',
+    back: '返回博客',
+    footer: '&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; 免费的阴影限制检测工具。<a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">隐私政策</a>'
+  }
+};
+let currentLang = localStorage.getItem('sb_lang') || 'en';
+document.documentElement.lang = currentLang;
+function t(key) { let v = (LANG[currentLang] && LANG[currentLang][key]) || LANG.en[key] || key; return v; }
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n')); });
+  document.getElementById('langBtn').title = currentLang === 'en' ? '切换到中文' : 'Switch to English';
+  document.getElementById('langIconEn').style.color = currentLang === 'en' ? '#6c5ce7' : '';
+  document.getElementById('langIconZh').style.color = currentLang === 'zh' ? '#6c5ce7' : '';
+}
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.documentElement.lang = currentLang;
+  localStorage.setItem('sb_lang', currentLang);
+  applyLang();
+}
+document.getElementById('langBtn').addEventListener('click', toggleLang);
+applyLang();
+</script>
+</body>
+</html>

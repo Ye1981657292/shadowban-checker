@@ -147,14 +147,70 @@
   footer a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
   footer a:hover { color: #a78bfa; }
     /* ── Ad Placements ── */
-  .ad-container {
-    margin-top: 8px;
+ .ad-container {
+    margin: 16px 0;
     border-radius: var(--radius-sm);
     overflow: hidden;
     text-align: center;
+    min-height: 90px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
   }
-  .ad-placeholder {
-    padding: 24px 20px;
+  .ad-container.ad-loaded {
+    min-height: auto;
+    background: none;
+    border-color: transparent;
+  }
+  .ad-container .ad-label {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    opacity: 0.5;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+  }
+ .ad-placeholder {
+    padding: 28px 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+  .ad-placeholder .ph-icon {
+    font-size: 1.4rem;
+    opacity: 0.3;
+  }
+  .ad-placeholder .ph-text {
+    font-size: 0.72rem;
+    opacity: 0.5;
+  }
+  .ad-container.ad-blocked .ad-placeholder {
+    border-color: rgba(255,107,107,0.2);
+    color: var(--red);
+    opacity: 0.6;
+  }
+  .ad-container-inline {
+    margin: 10px 0 14px;
+    min-height: 70px;
+  }
+  .ad-container-footer {
+    margin: 32px 0 0;
+  }
+  /* Share Section */
     border: 1px dashed var(--border);
     border-radius: var(--radius-sm);
     color: var(--text-dim);
@@ -162,6 +218,10 @@
     letter-spacing: 0.03em;
   }
   /* Share Section */
+  .nav-blog-link:hover { color: var(--accent) !important; }
+  .nav-blog-link-zh { display: none; }
+  html[lang="zh"] .nav-blog-link-en { display: none; }
+  html[lang="zh"] .nav-blog-link-zh { display: inline; }
   .share-section { display:none; margin-top:20px; padding:20px 24px; background:var(--bg-card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:var(--radius); text-align:center; animation:fadeUp 0.5s ease; }
   .share-section.show { display:block; }
   .share-text { font-size:0.9rem; color:var(--text-muted); line-height:1.6; margin-bottom:16px; }
@@ -278,6 +338,11 @@
   </button>
 </div>
 <div class="container">
+<nav style="display:flex;align-items:center;gap:20px;padding:0 0 8px;margin-bottom:4px">
+  <a href="/" style="font-weight:600;color:var(--text);text-decoration:none;font-size:0.85rem;display:flex;align-items:center;gap:6px">&#8592; <span>X Shadowban Checker</span></a>
+  <a href="/blog/" style="color:var(--text-muted);text-decoration:none;font-size:0.85rem;font-weight:500" class="nav-blog-link nav-blog-link-en">Blog</a>
+  <a href="/blog/" style="color:var(--text-muted);text-decoration:none;font-size:0.85rem;font-weight:500" class="nav-blog-link nav-blog-link-zh" lang="zh">博客</a>
+</nav>
   <header>
     <div class="logo">
       <span class="icon material-icons">visibility_off</span>
@@ -295,20 +360,25 @@
       <span class="spinner"></span>
     </button>
   </div>
-  <!-- AD PLACEMENT 1 — 搜索框下方 -->
-  <div class="ad-container">
-    <!-- 广告位 1 -->
+ <!-- AD PLACEMENT 1 — 搜索框下方 -->
+ <div class="ad-container">
+    <span class="ad-label">AD</span>
+    <div class="ad-placeholder" id="ph1">
+      <span class="ph-icon material-icons">ads_click</span>
+      <span class="ph-text">Advertisement</span>
+    </div>
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-9496732194077713"
-     data-ad-slot="YOUR_AD_SLOT_ID"
+     data-ad-slot="slot-search-bottom"
      data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
+     data-full-width-responsive="true"
+     data-ad-loading="lazy"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-  </div>
-  <div class="error-box" id="errorBox">
+ </div>
+ <div class="error-box" id="errorBox">
     <span class="material-icons">error_outline</span>
     <span id="errorText"></span>
   </div>
@@ -342,19 +412,24 @@
       </button>
     </div>
   </div>
-  <!-- AD PLACEMENT 2 — 结果下方 -->
-  <div class="ad-container">
-    <!-- 广告位 2 -->
+ <!-- AD PLACEMENT 2 — 结果下方 -->
+ <div class="ad-container">
+    <span class="ad-label">AD</span>
+    <div class="ad-placeholder" id="ph2">
+      <span class="ph-icon material-icons">ads_click</span>
+      <span class="ph-text">Advertisement</span>
+    </div>
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-9496732194077713"
-     data-ad-slot="YOUR_AD_SLOT_ID"
+     data-ad-slot="slot-results-bottom"
      data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
+     data-full-width-responsive="true"
+     data-ad-loading="lazy"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-  </div><!-- FAQ -->
+ </div><!-- FAQ -->
   <div class="info-section">
     <h3 data-i18n="faqTitle">了解检测结果</h3>
     <div class="info-item" onclick="this.classList.toggle('open')">
@@ -367,18 +442,54 @@
     </div>
     <div class="info-item" onclick="this.classList.toggle('open')">
       <div class="info-header"><span data-i18n="faq3h">搜索可见性限制</span> <span class="material-icons">expand_more</span></div>
-      <div class="info-body" data-i18n="faq3b">检测你的推文是否在其他用户的搜索结果中可见。<strong>失败</strong> 意味着你的内容被隐藏了 — 这是经典的阴影限制信号。</div>
+     <div class="info-body" data-i18n="faq3b">检测你的推文是否在其他用户的搜索结果中可见。<strong>失败</strong> 意味着你的内容被隐藏了 — 这是经典的阴影限制信号。</div>
+   </div>
+  <!-- AD PLACEMENT 3 — FAQ 内文广告 -->
+  <div class="ad-container ad-container-inline">
+    <span class="ad-label">AD</span>
+    <div class="ad-placeholder" id="ph3">
+      <span class="ph-icon material-icons">ads_click</span>
+      <span class="ph-text">Advertisement</span>
     </div>
-    <div class="info-item" onclick="this.classList.toggle('open')">
-      <div class="info-header"><span data-i18n="faq4h">幽灵限制（回复可见性）</span> <span class="material-icons">expand_more</span></div>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-9496732194077713"
+       data-ad-slot="slot-faq-inline"
+       data-ad-format="auto"
+       data-full-width-responsive="true"
+       data-ad-loading="lazy"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  </div>
+   <div class="info-item" onclick="this.classList.toggle('open')">
+     <div class="info-header"><span data-i18n="faq4h">幽灵限制（回复可见性）</span> <span class="material-icons">expand_more</span></div>
       <div class="info-body" data-i18n="faq4b">检查你对其他用户推文的回复是否对所有人可见，还是只有你和原帖作者能看到。<strong>失败</strong> 意味着你的回复被隐藏了 — 只有你和原帖作者能看到。</div>
     </div>
     <div class="info-item" onclick="this.classList.toggle('open')">
       <div class="info-header"><span data-i18n="faq5h">回复降权</span> <span class="material-icons">expand_more</span></div>
       <div class="info-body" data-i18n="faq5b">检测平台是否在限制你回复的传播范围 — 例如回复被排到评论区底部，或需要点击"显示更多回复"才能看到。<strong>失败</strong> 表示你的互动被人工压制了。</div>
+   </div>
+ </div>
+  <!-- AD PLACEMENT 4 — 页脚上方 -->
+  <div class="ad-container ad-container-footer">
+    <span class="ad-label">AD</span>
+    <div class="ad-placeholder" id="ph4">
+      <span class="ph-icon material-icons">ads_click</span>
+      <span class="ph-text">Advertisement</span>
     </div>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-9496732194077713"
+       data-ad-slot="slot-footer"
+       data-ad-format="auto"
+       data-full-width-responsive="true"
+       data-ad-loading="lazy"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   </div>
-  <footer><span data-i18n="footer">数据来源 <a href="https://shadowban-api.yuzurisa.com" target="_blank" rel="noopener">Shadowban API</a> &mdash; 仅供参考。<a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:12px">隐私政策</a></span></footer>
+ <footer><span data-i18n="footer">数据来源 <a href="https://shadowban-api.yuzurisa.com" target="_blank" rel="noopener">Shadowban API</a> &mdash; 仅供参考。<a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:12px">隐私政策</a></span></footer>
 </div>
 <script>
 // ═══════════════════════════════════════════
@@ -440,10 +551,8 @@ const LANG = {
     badge_protected: 'Protected',
     badge_suspended: 'Suspended',
     badge_noTweets: 'No Tweets',
-    langTooltip: 'Switch to Chinese',
-    adPlaceholder1: '广告位',
-    adPlaceholder2: '广告位',
-    shareTweet: 'Share on X',
+   langTooltip: 'Switch to Chinese',
+   shareTweet: 'Share on X',
     shareCopy: 'Copy link',
     shareCopied: 'Copied!',
     shareMsgOk: 'Checked @{name} - Shadowban Score: 100/100. All clear!',
@@ -504,10 +613,8 @@ const LANG = {
     badge_protected: '已保护',
     badge_suspended: '已封禁',
     badge_noTweets: '无推文',
-    langTooltip: '切换到英文',
-    adPlaceholder1: '广告位',
-    adPlaceholder2: '广告位',
-    shareTweet: '分享到 X',
+   langTooltip: '切换到英文',
+   shareTweet: '分享到 X',
     shareCopy: '复制链接',
     shareCopied: '已复制！',
     shareMsgOk: '刚检测了 @{name} - 评分 100/100，一切正常！',
@@ -673,6 +780,51 @@ sn.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
 document.getElementById('langBtn').addEventListener('click', toggleLang);
 // ── Init ──
 applyLang();
+</script>
+<!-- Ad Blocker Detection -->
+<script>
+(function() {
+  function detectAdBlock() {
+    var t = document.createElement('div');
+    t.innerHTML = '&nbsp;';
+    t.className = 'adsbox';
+    t.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden';
+    document.body.appendChild(t);
+    window.setTimeout(function() {
+      if (t.offsetHeight === 0 || t.offsetWidth === 0) {
+        document.querySelectorAll('.ad-container').forEach(function(e) {
+          e.classList.add('ad-blocked');
+          var p = e.querySelector('.ad-placeholder');
+          if (p) p.innerHTML = '<span class="ph-icon material-icons">block</span><span class="ph-text">Ad blocker detected — please whitelist this site to support us</span>';
+        });
+      }
+      document.body.removeChild(t);
+    }, 100);
+  }
+  if (document.readyState === 'complete') { detectAdBlock(); }
+  else { window.addEventListener('load', detectAdBlock); }
+})();
+</script>
+<!-- Ad status marker -->
+<script>
+(function() {
+  var ci = setInterval(function() {
+    document.querySelectorAll('.adsbygoogle').forEach(function(e) {
+      if (e.getAttribute('data-ad-status') === 'filled' || e.getAttribute('data-ad-status') === 'unfilled') {
+        var c = e.closest('.ad-container');
+        if (c) {
+          c.classList.add('ad-loaded');
+          var p = c.querySelector('.ad-placeholder');
+          if (p) p.style.display = 'none';
+        }
+      }
+    });
+    var all = document.querySelectorAll('.adsbygoogle');
+    var done = true;
+    all.forEach(function(e) { if (!e.getAttribute('data-ad-status')) done = false; });
+    if (done) clearInterval(ci);
+  }, 500);
+})();
 </script>
 <!-- Visit Tracker --><script src="https://api.xcheckai.online/tracker.js"></script></body>
 </html>

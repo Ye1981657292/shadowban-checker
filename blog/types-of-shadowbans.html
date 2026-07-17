@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4 Types of Shadowbans on X and How to Detect Them | X Shadowban Checker</title>
+<meta name="description" content="Learn about the 4 distinct types of shadowbans on X (Twitter): search suggestion bans, search visibility bans, ghost bans, and reply deboosting. Includes detection methods for each.">
+<meta property="og:title" content="4 Types of Shadowbans on X and How to Detect Them">
+<meta property="og:description" content="Complete breakdown of the 4 types of X shadowbans: typeahead, search, ghost, and reply deboosting. Learn how each works and how to detect them.">
+<meta property="og:url" content="https://xcheckai.online/blog/types-of-shadowbans.html">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://xcheckai.online/blog/types-of-shadowbans.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f; --bg-card: rgba(255,255,255,0.04); --bg-card-hover: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --text: #e4e4ed; --text-muted: #8b8b9d; --text-dim: #5c5c72;
+    --accent: #6c5ce7; --accent-glow: rgba(108,92,231,0.3);
+    --green: #00d68f; --red: #ff6b6b; --yellow: #ffd93d; --blue: #54a0ff;
+    --radius: 16px; --radius-sm: 10px;
+    --font: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.8; overflow-x: hidden; }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 24px 60px; }
+  .lang-toggle { display: flex; justify-content: flex-end; padding: 16px 24px 0; max-width: 780px; margin: 0 auto; }
+  .lang-btn { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; cursor: pointer; font-family: var(--font); font-size: 0.78rem; font-weight: 500; color: var(--text-muted); display: flex; align-items: center; gap: 4px; transition: background 0.3s, border-color 0.3s; }
+  .lang-btn:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+  .lang-btn .active { color: var(--accent); font-weight: 700; }
+  .lang-divider { color: var(--text-dim); }
+  .nav-bar { display: flex; align-items: center; gap: 20px; padding: 16px 0; margin-bottom: 20px; }
+  .nav-bar a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-bar a:hover { color: var(--accent); }
+  .nav-bar .home-link { font-weight: 600; color: var(--text); }
+  .nav-bar .home-link:hover { color: var(--accent); }
+  article h1 { font-size: 2rem; font-weight: 800; line-height: 1.3; margin: 0 0 12px; background: linear-gradient(135deg,#fff 0%,#a78bfa 50%,#6c5ce7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .article-meta { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: flex; gap: 16px; align-items: center; }
+  .article-meta .date { display: flex; align-items: center; gap: 4px; }
+  .article-meta .read-time { color: var(--text-muted); font-size: 0.8rem; }
+  .toc { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; margin: 24px 0 32px; }
+  .toc h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; }
+  .toc ol { list-style: none; padding: 0; }
+  .toc li { margin-bottom: 8px; font-size: 0.88rem; }
+  .toc li a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  .toc li a:hover { color: #a78bfa; text-decoration: underline; }
+  article h2 { font-size: 1.4rem; font-weight: 700; margin: 40px 0 16px; color: var(--text); line-height: 1.4; }
+  article h3 { font-size: 1.1rem; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+  article p { margin-bottom: 16px; color: var(--text-muted); font-size: 0.95rem; }
+  article strong { color: var(--text); }
+  article ul, article ol { margin: 0 0 16px 20px; color: var(--text-muted); font-size: 0.95rem; }
+  article li { margin-bottom: 8px; }
+  .highlight-box { background: rgba(108,92,231,0.08); border: 1px solid rgba(108,92,231,0.2); border-radius: var(--radius-sm); padding: 16px 20px; margin: 20px 0; }
+  .highlight-box p { margin-bottom: 0; }
+  .type-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; transition: border-color 0.3s; }
+  .type-card:hover { border-color: rgba(108,92,231,0.3); }
+  .type-card .type-icon { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+  .type-card h3 { margin-top: 0; margin-bottom: 8px; }
+  .type-card .type-status { display: inline-flex; gap: 8px; margin: 8px 0; }
+  .type-card .type-status .dot-green { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
+  .type-card .type-status .dot-red { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--red); }
+  .type-card .type-status .dot-yellow { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.88rem; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .cta-section { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin: 40px 0 0; text-align: center; }
+  .cta-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .cta-section p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg,#6c5ce7,#a78bfa); border: none; color: #fff; font-family: var(--font); font-weight: 600; font-size: 0.95rem; padding: 12px 28px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+  .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+  footer { text-align: center; margin-top: 60px; padding: 20px 0; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { color: #a78bfa; }
+  @media (max-width: 768px) {
+    .container { padding: 20px 14px 40px; }
+    article h1 { font-size: 1.5rem; }
+    article h2 { font-size: 1.2rem; }
+    .type-card { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" id="langBtn" title="Switch to Chinese">
+    <span class="lang-icon" id="langIconEn">EN</span><span class="lang-divider">|</span><span class="lang-icon" id="langIconZh">中文</span>
+  </button>
+</div>
+<div class="container">
+  <nav class="nav-bar">
+    <a href="/" class="home-link">&#8592; <span data-i18n="home">Home</span></a>
+    <a href="/blog/"><span data-i18n="blog">Blog</span></a>
+  </nav>
+  <article>
+    <h1 data-i18n="title">4 Types of Shadowbans on X (Twitter) and How to Detect Them</h1>
+    <div class="article-meta">
+      <span class="date">&#128197; <span data-i18n="date">Published July 17, 2026</span></span>
+      <span class="read-time">&#128337; <span data-i18n="readTime">11 min read</span></span>
+    </div>
+
+    <div class="toc">
+      <h3 data-i18n="tocTitle">Table of Contents</h3>
+      <ol>
+        <li><a href="#overview" data-i18n="toc1">Overview: Four Distinct Restrictions</a></li>
+        <li><a href="#type1" data-i18n="toc2">Type 1: Search Suggestion Ban (Typeahead)</a></li>
+        <li><a href="#type2" data-i18n="toc3">Type 2: Search Visibility Ban</a></li>
+        <li><a href="#type3" data-i18n="toc4">Type 3: Ghost Ban (Reply Visibility)</a></li>
+        <li><a href="#type4" data-i18n="toc5">Type 4: Reply Deboosting</a></li>
+        <li><a href="#combinations" data-i18n="toc6">How Restrictions Combine</a></li>
+        <li><a href="#detect" data-i18n="toc7">How to Detect Each Type</a></li>
+      </ol>
+    </div>
+
+    <section id="overview">
+      <h2 data-i18n="s1Title">Overview: Four Distinct Restrictions</h2>
+      <p data-i18n="s1p1">When people talk about being "shadowbanned" on X, many assume it is a single, all-or-nothing penalty. In reality, X operates a graduated system of at least four separate restriction types. Each targets a different aspect of how your content reaches other users, and they can be applied independently or simultaneously.</p>
+      <p data-i18n="s1p2">Understanding the difference between these four types is crucial because:</p>
+      <ul>
+        <li data-i18n="s1li1">You might be affected by <em>some</em> types but not others</li>
+        <li data-i18n="s1li2">Each type requires a different detection method</li>
+        <li data-i18n="s1li3">The severity and duration vary significantly between types</li>
+        <li data-i18n="s1li4">Knowing exactly which restriction you face helps you take the right corrective action</li>
+      </ul>
+      <p data-i18n="s1p3">Below, we break down each type in detail, explain how it works, and show you how to detect it.</p>
+    </section>
+
+    <section id="type1">
+      <h2 data-i18n="s2Title">Type 1: Search Suggestion Ban (Typeahead)</h2>
+      <div class="type-card">
+        <span class="type-icon">&#128269;</span>
+        <div class="type-status"><span class="dot-green"></span> <span data-i18n="type1status">Earliest indicator</span></div>
+        <p data-i18n="type1desc">The Search Suggestion Ban, also known as a <strong>Typeahead Ban</strong>, is the most common and often the first shadowban restriction applied. It affects the autocomplete suggestions that appear when another user types a name or handle into X's search bar.</p>
+      </div>
+      <h3 data-i18n="s2h1">How It Works</h3>
+      <p data-i18n="s2p1">When a user begins typing in X's search box, the platform displays a dropdown list of suggested accounts and topics based on partial input. For most accounts, typing a few characters of their handle causes their profile to appear in this list. When a typeahead ban is active, your account is removed from this suggestion index entirely.</p>
+      <h3 data-i18n="s2h2">Detection</h3>
+      <p data-i18n="s2p2">This is the easiest type to test. Ask a friend to type your full handle (or even just the first 2-3 characters) into X's search bar. If your account does not appear in the suggestion dropdown, you likely have a typeahead ban. However, manual testing can be unreliable due to X's caching and personalization. Using a dedicated <a href="/" style="color:var(--accent)">shadowban checker</a> provides a definitive result.</p>
+    </section>
+
+    <section id="type2">
+      <h2 data-i18n="s3Title">Type 2: Search Visibility Ban</h2>
+      <div class="type-card">
+        <span class="type-icon">&#128270;</span>
+        <div class="type-status"><span class="dot-yellow"></span> <span data-i18n="type2status">Moderate restriction</span></div>
+        <p data-i18n="type2desc">A Search Visibility Ban goes further than the typeahead ban. It prevents your tweets and profile from appearing in X's search results entirely. Even if someone searches for exact keywords from your tweet, your content will not show up.</p>
+      </div>
+      <h3 data-i18n="s3h1">How It Works</h3>
+      <p data-i18n="s3p1">X maintains a search index of all public tweets and profiles. When a search visibility ban is in effect, your account is excluded from this index. This means none of your tweets are discoverable through search, whether someone searches for your handle, keywords from your tweets, or hashtags you used.</p>
+      <h3 data-i18n="s3h2">Impact</h3>
+      <p data-i18n="s3p2">This is a severe restriction for any account that relies on organic discovery. New followers who might find you through search will not be able to. Hashtag campaigns become ineffective. Your content becomes invisible to anyone who does not already follow you.</p>
+      <h3 data-i18n="s3h3">Detection</h3>
+      <p data-i18n="s3p3">Log out of X or use a browser in incognito mode. Search for a unique phrase from one of your recent tweets. If nothing appears, your search visibility may be restricted. Note that search results are personalized, so using an incognito browser or another account provides a more objective test.</p>
+    </section>
+
+    <section id="type3">
+      <h2 data-i18n="s4Title">Type 3: Ghost Ban (Reply Visibility)</h2>
+      <div class="type-card">
+        <span class="type-icon">&#128373;</span>
+        <div class="type-status"><span class="dot-red"></span> <span data-i18n="type3status">Severe restriction</span></div>
+        <p data-i18n="type3desc">A Ghost Ban, sometimes called a <strong>Reply Visibility Ban</strong>, is one of the most frustrating restrictions because it is almost impossible to detect from your own perspective. When you reply to another user's tweet, the reply appears normal to you and the original poster. But to everyone else, it is completely invisible.</p>
+      </div>
+      <h3 data-i18n="s4h1">How It Works</h3>
+      <p data-i18n="s4p1">In a normal scenario, when you reply to a tweet, your response appears in the conversation thread for all users to see. With a ghost ban active, X modifies the reply's visibility settings so that only the participants in the direct conversation can see it. The reply still exists on the platform and counts toward your metrics, but it effectively disappears from public view.</p>
+      <h3 data-i18n="s4h2">Why It Is Dangerous</h3>
+      <p data-i18n="s4p2">Because you and the person you replied to can still see the reply, neither of you knows anything is wrong. The reply's lack of engagement looks like normal disinterest. You could be ghost banned for weeks without realizing it, continuing to post replies that nobody else sees.</p>
+      <h3 data-i18n="s4h3">Detection</h3>
+      <p data-i18n="s4p3">This type of ban requires external verification. The most reliable method is to use a <a href="/" style="color:var(--accent)">shadowban detection tool</a> that tests reply visibility through the API. Alternatively, ask a friend who does not follow you to check a specific reply thread.</p>
+    </section>
+
+    <section id="type4">
+      <h2 data-i18n="s5Title">Type 4: Reply Deboosting</h2>
+      <div class="type-card">
+        <span class="type-icon">&#128200;</span>
+        <div class="type-status"><span class="dot-yellow"></span> <span data-i18n="type4status">Reach reduction</span></div>
+        <p data-i18n="type4desc">Reply Deboosting is a subtler form of restriction. Unlike a ghost ban where replies become completely invisible, deboosting simply pushes your replies to the bottom of the thread, behind "Show more replies" prompts. Your replies are technically visible, but they are severely disadvantaged in the thread hierarchy.</p>
+      </div>
+      <h3 data-i18n="s5h1">How It Works</h3>
+      <p data-i18n="s5p1">X uses an algorithm to determine the order of replies in a conversation thread. The most relevant or popular replies appear at the top, while less engaging or restricted replies are pushed down. Reply deboosting artificially lowers your replies in this ranking, often placing them below dozens or hundreds of other replies, even when your reply was posted early.</p>
+      <h3 data-i18n="s5h2">Hidden "Show More Replies" Penalty</h3>
+      <p data-i18n="s5p2">In many threads, especially those with many replies, X truncates the visible replies and places the rest behind a "Show more replies" button. Deboosted replies are almost always placed behind this cutoff, reducing their visibility by 90% or more. Most users never click "Show more replies," so your content remains effectively hidden.</p>
+      <h3 data-i18n="s5h3">Detection</h3>
+      <p data-i18n="s5p3">Detecting reply deboosting requires comparing your reply's position in the thread across different accounts or using an API-based tool. If you notice that your replies consistently appear at the bottom of threads or behind "Show more replies" cutoffs, even when you reply early, you may be experiencing deboosting.</p>
+    </section>
+
+    <section id="combinations">
+      <h2 data-i18n="s6Title">How Restrictions Combine</h2>
+      <p data-i18n="s6p1">These four restriction types are not mutually exclusive. In fact, accounts with serious or repeated violations often experience multiple restrictions simultaneously. Here are the common combinations:</p>
+      <ul>
+        <li data-i18n="s6li1"><strong>Mild shadowban:</strong> Typeahead ban only. Your account disappears from search suggestions but is otherwise normal.</li>
+        <li data-i18n="s6li2"><strong>Moderate shadowban:</strong> Typeahead + search visibility ban. Your account cannot be discovered through any search function.</li>
+        <li data-i18n="s6li3"><strong>Severe shadowban:</strong> All four restrictions active. Your account is effectively invisible to anyone who does not already follow you.</li>
+      </ul>
+      <p data-i18n="s6p2">A comprehensive <a href="/" style="color:var(--accent)">shadowban check</a> tests all four types simultaneously so you can see the full picture of your account's restriction status.</p>
+    </section>
+
+    <section id="detect">
+      <h2 data-i18n="s7Title">How to Detect Each Type</h2>
+      <p data-i18n="s7p1">Here is a quick reference for detecting each restriction type:</p>
+      <table style="width:100%; border-collapse: collapse; margin: 16px 0;">
+        <tr style="border-bottom: 1px solid var(--border);">
+          <th style="text-align:left; padding: 10px 8px; color: var(--text); font-weight: 600;"><span data-i18n="detectCol1">Type</span></th>
+          <th style="text-align:left; padding: 10px 8px; color: var(--text); font-weight: 600;"><span data-i18n="detectCol2">Detection Method</span></th>
+          <th style="text-align:left; padding: 10px 8px; color: var(--text); font-weight: 600;"><span data-i18n="detectCol3">Difficulty</span></th>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR1C1">Typeahead Ban</span></td>
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR1C2">Check search suggestions</span></td>
+          <td style="padding: 8px; color: var(--yellow);"><span data-i18n="detectR1C3">Easy</span></td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR2C1">Search Ban</span></td>
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR2C2">Incognito search test</span></td>
+          <td style="padding: 8px; color: var(--yellow);"><span data-i18n="detectR2C3">Easy</span></td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR3C1">Ghost Ban</span></td>
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR3C2">External reply check</span></td>
+          <td style="padding: 8px; color: var(--red);"><span data-i18n="detectR3C3">Hard</span></td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR4C1">Reply Deboosting</span></td>
+          <td style="padding: 8px; color: var(--text-muted);"><span data-i18n="detectR4C2">Compare thread positions</span></td>
+          <td style="padding: 8px; color: var(--red);"><span data-i18n="detectR4C3">Hard</span></td>
+        </tr>
+      </table>
+      <div class="highlight-box">
+        <p><strong data-i18n="tip">Tip:</strong> <span data-i18n="s7tip">Rather than testing each type manually, use our <a href="/" style="color:var(--accent)">free shadowban checker</a> for instant, comprehensive results across all four restriction types.</span></p>
+      </div>
+    </section>
+  </article>
+
+  <div class="cta-section">
+    <h3 data-i18n="ctaTitle">Check All 4 Types Now</h3>
+    <p data-i18n="ctaDesc">Find out exactly which restrictions are affecting your X account. Free and anonymous.</p>
+    <a href="/" class="cta-btn">&#128270; <span data-i18n="ctaBtn">Check My Account</span></a>
+  </div>
+
+  <a href="/blog/" class="back-link">&#8592; <span data-i18n="back">Back to Blog</span></a>
+
+  <footer>
+    <span data-i18n="footer">&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; Free shadowban detection tool. <a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">Privacy</a></span>
+  </footer>
+</div>
+
+<script>
+const LANG = {
+  en: {
+    home: 'Home', blog: 'Blog',
+    title: '4 Types of Shadowbans on X (Twitter) and How to Detect Them',
+    date: 'Published July 17, 2026',
+    readTime: '11 min read',
+    tocTitle: 'Table of Contents',
+    toc1: 'Overview: Four Distinct Restrictions',
+    toc2: 'Type 1: Search Suggestion Ban (Typeahead)',
+    toc3: 'Type 2: Search Visibility Ban',
+    toc4: 'Type 3: Ghost Ban (Reply Visibility)',
+    toc5: 'Type 4: Reply Deboosting',
+    toc6: 'How Restrictions Combine',
+    toc7: 'How to Detect Each Type',
+    s1Title: 'Overview: Four Distinct Restrictions',
+    s1p1: 'When people talk about being "shadowbanned" on X, many assume it is a single, all-or-nothing penalty. In reality, X operates a graduated system of at least four separate restriction types. Each targets a different aspect of how your content reaches other users, and they can be applied independently or simultaneously.',
+    s1p2: 'Understanding the difference between these four types is crucial because:',
+    s1li1: 'You might be affected by <em>some</em> types but not others',
+    s1li2: 'Each type requires a different detection method',
+    s1li3: 'The severity and duration vary significantly between types',
+    s1li4: 'Knowing exactly which restriction you face helps you take the right corrective action',
+    s1p3: 'Below, we break down each type in detail, explain how it works, and show you how to detect it.',
+    s2Title: 'Type 1: Search Suggestion Ban (Typeahead)',
+    type1status: 'Earliest indicator',
+    type1desc: 'The Search Suggestion Ban, also known as a <strong>Typeahead Ban</strong>, is the most common and often the first shadowban restriction applied. It affects the autocomplete suggestions that appear when another user types a name or handle into X\u2019s search bar.',
+    s2h1: 'How It Works',
+    s2p1: 'When a user begins typing in X\u2019s search box, the platform displays a dropdown list of suggested accounts and topics based on partial input. For most accounts, typing a few characters of their handle causes their profile to appear in this list. When a typeahead ban is active, your account is removed from this suggestion index entirely.',
+    s2h2: 'Detection',
+    s2p2: 'This is the easiest type to test. Ask a friend to type your full handle (or even just the first 2-3 characters) into X\u2019s search bar. If your account does not appear in the suggestion dropdown, you likely have a typeahead ban. However, manual testing can be unreliable due to X\u2019s caching and personalization. Using a dedicated shadowban checker provides a definitive result.',
+    s3Title: 'Type 2: Search Visibility Ban',
+    type2status: 'Moderate restriction',
+    type2desc: 'A Search Visibility Ban goes further than the typeahead ban. It prevents your tweets and profile from appearing in X\u2019s search results entirely. Even if someone searches for exact keywords from your tweet, your content will not show up.',
+    s3h1: 'How It Works',
+    s3p1: 'X maintains a search index of all public tweets and profiles. When a search visibility ban is in effect, your account is excluded from this index. This means none of your tweets are discoverable through search, whether someone searches for your handle, keywords from your tweets, or hashtags you used.',
+    s3h2: 'Impact',
+    s3p2: 'This is a severe restriction for any account that relies on organic discovery. New followers who might find you through search will not be able to. Hashtag campaigns become ineffective. Your content becomes invisible to anyone who does not already follow you.',
+    s3h3: 'Detection',
+    s3p3: 'Log out of X or use a browser in incognito mode. Search for a unique phrase from one of your recent tweets. If nothing appears, your search visibility may be restricted. Note that search results are personalized, so using an incognito browser or another account provides a more objective test.',
+    s4Title: 'Type 3: Ghost Ban (Reply Visibility)',
+    type3status: 'Severe restriction',
+    type3desc: 'A Ghost Ban, sometimes called a <strong>Reply Visibility Ban</strong>, is one of the most frustrating restrictions because it is almost impossible to detect from your own perspective. When you reply to another user\u2019s tweet, the reply appears normal to you and the original poster. But to everyone else, it is completely invisible.',
+    s4h1: 'How It Works',
+    s4p1: 'In a normal scenario, when you reply to a tweet, your response appears in the conversation thread for all users to see. With a ghost ban active, X modifies the reply\u2019s visibility settings so that only the participants in the direct conversation can see it. The reply still exists on the platform and counts toward your metrics, but it effectively disappears from public view.',
+    s4h2: 'Why It Is Dangerous',
+    s4p2: 'Because you and the person you replied to can still see the reply, neither of you knows anything is wrong. The reply\u2019s lack of engagement looks like normal disinterest. You could be ghost banned for weeks without realizing it, continuing to post replies that nobody else sees.',
+    s4h3: 'Detection',
+    s4p3: 'This type of ban requires external verification. The most reliable method is to use a shadowban detection tool that tests reply visibility through the API. Alternatively, ask a friend who does not follow you to check a specific reply thread.',
+    s5Title: 'Type 4: Reply Deboosting',
+    type4status: 'Reach reduction',
+    type4desc: 'Reply Deboosting is a subtler form of restriction. Unlike a ghost ban where replies become completely invisible, deboosting simply pushes your replies to the bottom of the thread, behind "Show more replies" prompts. Your replies are technically visible, but they are severely disadvantaged in the thread hierarchy.',
+    s5h1: 'How It Works',
+    s5p1: 'X uses an algorithm to determine the order of replies in a conversation thread. The most relevant or popular replies appear at the top, while less engaging or restricted replies are pushed down. Reply deboosting artificially lowers your replies in this ranking, often placing them below dozens or hundreds of other replies, even when your reply was posted early.',
+    s5h2: 'Hidden "Show More Replies" Penalty',
+    s5p2: 'In many threads, especially those with many replies, X truncates the visible replies and places the rest behind a "Show more replies" button. Deboosted replies are almost always placed behind this cutoff, reducing their visibility by 90% or more. Most users never click "Show more replies," so your content remains effectively hidden.',
+    s5h3: 'Detection',
+    s5p3: 'Detecting reply deboosting requires comparing your reply\u2019s position in the thread across different accounts or using an API-based tool. If you notice that your replies consistently appear at the bottom of threads or behind "Show more replies" cutoffs, even when you reply early, you may be experiencing deboosting.',
+    s6Title: 'How Restrictions Combine',
+    s6p1: 'These four restriction types are not mutually exclusive. In fact, accounts with serious or repeated violations often experience multiple restrictions simultaneously. Here are the common combinations:',
+    s6li1: '<strong>Mild shadowban:</strong> Typeahead ban only. Your account disappears from search suggestions but is otherwise normal.',
+    s6li2: '<strong>Moderate shadowban:</strong> Typeahead + search visibility ban. Your account cannot be discovered through any search function.',
+    s6li3: '<strong>Severe shadowban:</strong> All four restrictions active. Your account is effectively invisible to anyone who does not already follow you.',
+    s6p2: 'A comprehensive shadowban check tests all four types simultaneously so you can see the full picture of your account\u2019s restriction status.',
+    s7Title: 'How to Detect Each Type',
+    s7p1: 'Here is a quick reference for detecting each restriction type:',
+    detectCol1: 'Type', detectCol2: 'Detection Method', detectCol3: 'Difficulty',
+    detectR1C1: 'Typeahead Ban', detectR1C2: 'Check search suggestions', detectR1C3: 'Easy',
+    detectR2C1: 'Search Ban', detectR2C2: 'Incognito search test', detectR2C3: 'Easy',
+    detectR3C1: 'Ghost Ban', detectR3C2: 'External reply check', detectR3C3: 'Hard',
+    detectR4C1: 'Reply Deboosting', detectR4C2: 'Compare thread positions', detectR4C3: 'Hard',
+    tip: 'Tip:',
+    s7tip: 'Rather than testing each type manually, use our <a href="/" style="color:var(--accent)">free shadowban checker</a> for instant, comprehensive results across all four restriction types.',
+    ctaTitle: 'Check All 4 Types Now',
+    ctaDesc: 'Find out exactly which restrictions are affecting your X account. Free and anonymous.',
+    ctaBtn: 'Check My Account',
+    back: 'Back to Blog',
+    footer: '&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; Free shadowban detection tool. <a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">Privacy</a>'
+  },
+  zh: {
+    home: '首页', blog: '博客文章',
+    title: 'X (Twitter) 的 4 种阴影限制类型及检测方法',
+    date: '发布于 2026 年 7 月 17 日',
+    readTime: '阅读时间约 11 分钟',
+    tocTitle: '目录',
+    toc1: '概述：四种不同的限制',
+    toc2: '类型 1：搜索建议限制（Typeahead）',
+    toc3: '类型 2：搜索可见性限制',
+    toc4: '类型 3：幽灵限制（回复可见性）',
+    toc5: '类型 4：回复降权',
+    toc6: '限制如何组合',
+    toc7: '如何检测每种类型',
+    s1Title: '概述：四种不同的限制',
+    s1p1: '当人们谈论在 X 上被"shadowban"时，许多人以为它是一种单一的、全有或全无的惩罚。实际上，X 运作着一个至少包含四种独立限制类型的分级系统。每一种都针对你的内容触达其他用户的不同方面，它们可以独立或同时应用。',
+    s1p2: '理解这四种类型之间的区别至关重要，因为：',
+    s1li1: '你可能只受到<em>部分</em>类型的限制，而非全部',
+    s1li2: '每种类型需要不同的检测方法',
+    s1li3: '不同限制类型的严重程度和持续时间差异很大',
+    s1li4: '确切知道你面临哪种限制，有助于你采取正确的纠正措施',
+    s1p3: '下面，我们详细剖析每种类型，解释其运作方式，并展示如何检测。',
+    s2Title: '类型 1：搜索建议限制（Typeahead）',
+    type1status: '最早期的指标',
+    type1desc: '搜索建议限制，也称为 <strong>Typeahead 限制</strong>，是最常见且通常最先应用的 shadowban 限制。它影响的是当其他用户在 X 的搜索栏输入名称或账号时出现的自动完成建议。',
+    s2h1: '如何运作',
+    s2p1: '当用户开始在 X 的搜索框中输入时，平台会显示一个基于部分输入的建议账号和话题的下拉列表。对于大多数账号，输入几个字符的账号名即可使其个人资料出现在此列表中。当 typeahead 限制激活时，你的账号会被完全从建议索引中移除。',
+    s2h2: '检测方法',
+    s2p2: '这是最容易测试的类型。请朋友在 X 的搜索栏中输入你的完整账号名（甚至只需前 2-3 个字符），如果你的账号没有出现在建议下拉列表中，你很可能受到 typeahead 限制。不过，手动测试可能因 X 的缓存和个人化而不够可靠。使用专门的 shadowban 检测工具可以提供确定性的结果。',
+    s3Title: '类型 2：搜索可见性限制',
+    type2status: '中等限制',
+    type2desc: '搜索可见性限制比 typeahead 限制更进一步。它完全阻止你的推文和个人资料出现在 X 的搜索结果中。即使有人搜索你推文中的确切关键词，你的内容也不会显示。',
+    s3h1: '如何运作',
+    s3p1: 'X 维护着所有公开推文和个人资料的搜索索引。当搜索可见性限制生效时，你的账号被排除在此索引之外。这意味着无论别人搜索你的账号名、你推文中的关键词还是你使用的话题标签，你的推文都无法通过搜索被发现。',
+    s3h2: '影响',
+    s3p2: '对于依赖自然发现的账号来说，这是一个严重的限制。可能通过搜索找到你的新粉丝将无法找到你。话题标签活动变得无效。你的内容对没有关注你的人完全不可见。',
+    s3h3: '检测方法',
+    s3p3: '登出 X 或使用浏览器的无痕模式。搜索你最近一条推文中的独特短语。如果没有出现任何内容，你的搜索可见性可能已被限制。注意搜索结果是个性化的，所以使用无痕浏览器或另一个账号能提供更客观的测试结果。',
+    s4Title: '类型 3：幽灵限制（回复可见性）',
+    type3status: '严重限制',
+    type3desc: '幽灵限制，有时称为 <strong>回复可见性限制</strong>，是最令人沮丧的限制之一，因为它几乎不可能从你自己的角度察觉到。当你回复其他用户的推文时，回复在你和原帖作者看来是正常的。但对其他所有人来说，它完全不不可见的。',
+    s4h1: '如何运作',
+    s4p1: '在正常情况下，当你回复一条推文时，你的回复会出现在对话线程中供所有用户查看。当幽灵限制激活时，X 会修改回复的可见性设置，使得只有直接对话的参与者可以看到它。回复仍然存在于平台上并计入你的指标，但它实际上从公众视野中消失了。',
+    s4h2: '为什么危险',
+    s4p2: '因为你和被你回复的人仍然可以看到回复，所以你们都不知道有问题。回复缺乏互动看起来就像普通的缺乏兴趣。你可能在被幽灵限制数周后仍未察觉，继续发布着没人看到的回复。',
+    s4h3: '检测方法',
+    s4p3: '这种限制需要外部验证。最可靠的方法是使用通过 API 测试回复可见性的 shadowban 检测工具。或者，让一个没有关注你的朋友检查特定的回复线程。',
+    s5Title: '类型 4：回复降权',
+    type4status: '触达范围缩小',
+    type4desc: '回复降权是一种更微妙形式的限制。与回复完全不可见的幽灵限制不同，降权只是将你的回复推至线程底部，隐藏在"显示更多回复"后面。你的回复在技术上可见，但在线程层级结构中处于严重不利地位。',
+    s5h1: '如何运作',
+    s5p1: 'X 使用算法来决定对话线程中回复的顺序。最相关或最受欢迎的回复出现在顶部，而参与度较低或受限的回复被推至下方。回复降权人为地降低你的回复在该排名中的位置，即使你的回复发布时间很早，也经常被排在几十甚至上百条回复之后。',
+    s5h2: '隐藏的"显示更多回复"惩罚',
+    s5p2: '在许多线程中，尤其是那些有大量回复的线程，X 会截断可见的回复，将剩余的放在"显示更多回复"按钮后面。被降权的回复几乎总是被放在这个截断线之后，其可见性降低 90% 或更多。大多数用户从不点击"显示更多回复"，所以你的内容实际上仍然被隐藏。',
+    s5h3: '检测方法',
+    s5p3: '检测回复降权需要比较你的回复在不同账号下在线程中的位置，或使用基于 API 的工具。如果你注意到即使你回复得早，你的回复也总是出现在线程底部或"显示更多回复"后面，你可能正在经历降权。',
+    s6Title: '限制如何组合',
+    s6p1: '这四种限制类型并不互斥。事实上，有严重或重复违规行为的账号通常会同时经历多种限制。以下是常见的组合：',
+    s6li1: '<strong>轻度 Shadowban：</strong> 仅 Typeahead 限制。你的账号从搜索建议中消失，但其他方面正常。',
+    s6li2: '<strong>中度 Shadowban：</strong> Typeahead + 搜索可见性限制。你的账号无法通过任何搜索功能被发现。',
+    s6li3: '<strong>重度 Shadowban：</strong> 四种限制全部激活。你的账号对未关注你的人完全不可见。',
+    s6p2: '全面的 shadowban 检测可以同时测试所有四种类型，让你看到账号限制状态的完整画面。',
+    s7Title: '如何检测每种类型',
+    s7p1: '以下是检测每种限制类型的快速参考：',
+    detectCol1: '类型', detectCol2: '检测方法', detectCol3: '难度',
+    detectR1C1: 'Typeahead 限制', detectR1C2: '检查搜索建议', detectR1C3: '简单',
+    detectR2C1: '搜索限制', detectR2C2: '无痕搜索测试', detectR2C3: '简单',
+    detectR3C1: '幽灵限制', detectR3C2: '外部回复检查', detectR3C3: '困难',
+    detectR4C1: '回复降权', detectR4C2: '比较线程位置', detectR4C3: '困难',
+    tip: '提示：',
+    s7tip: '与其手动测试每种类型，不如使用我们的 <a href="/" style="color:var(--accent)">免费 shadowban 检测工具</a>，即时获得四种限制类型的全面结果。',
+    ctaTitle: '立即检测全部 4 种类型',
+    ctaDesc: '确切了解哪些限制正在影响你的 X 账号。免费且匿名。',
+    ctaBtn: '检测我的账号',
+    back: '返回博客',
+    footer: '&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; 免费的阴影限制检测工具。<a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">隐私政策</a>'
+  }
+};
+let currentLang = localStorage.getItem('sb_lang') || 'en';
+document.documentElement.lang = currentLang;
+function t(key) {
+  let v = (LANG[currentLang] && LANG[currentLang][key]) || LANG.en[key] || key;
+  return v;
+}
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n')); });
+  document.getElementById('langBtn').title = currentLang === 'en' ? '切换到中文' : 'Switch to English';
+  document.getElementById('langIconEn').style.color = currentLang === 'en' ? '#6c5ce7' : '';
+  document.getElementById('langIconZh').style.color = currentLang === 'zh' ? '#6c5ce7' : '';
+}
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.documentElement.lang = currentLang;
+  localStorage.setItem('sb_lang', currentLang);
+  applyLang();
+}
+document.getElementById('langBtn').addEventListener('click', toggleLang);
+applyLang();
+</script>
+</body>
+</html>

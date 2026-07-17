@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is an X Shadowban? Complete Guide 2026 | X Shadowban Checker</title>
+<meta name="description" content="A complete guide explaining what an X (Twitter) shadowban is, how it works, what causes it, and how to check if your account is affected.">
+<meta property="og:title" content="What is an X Shadowban? Complete Guide 2026">
+<meta property="og:description" content="Learn everything about X shadowbans: what they are, how they work, common causes, and how to detect them.">
+<meta property="og:url" content="https://xcheckai.online/blog/what-is-shadowban.html">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://xcheckai.online/blog/what-is-shadowban.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f; --bg-card: rgba(255,255,255,0.04); --bg-card-hover: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08); --text: #e4e4ed; --text-muted: #8b8b9d; --text-dim: #5c5c72;
+    --accent: #6c5ce7; --accent-glow: rgba(108,92,231,0.3);
+    --green: #00d68f; --red: #ff6b6b; --yellow: #ffd93d; --blue: #54a0ff;
+    --radius: 16px; --radius-sm: 10px;
+    --font: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.8; overflow-x: hidden; }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 24px 60px; }
+  .lang-toggle { display: flex; justify-content: flex-end; padding: 16px 24px 0; max-width: 780px; margin: 0 auto; }
+  .lang-btn { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; cursor: pointer; font-family: var(--font); font-size: 0.78rem; font-weight: 500; color: var(--text-muted); display: flex; align-items: center; gap: 4px; transition: background 0.3s, border-color 0.3s; }
+  .lang-btn:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+  .lang-btn .active { color: var(--accent); font-weight: 700; }
+  .lang-divider { color: var(--text-dim); }
+  .nav-bar { display: flex; align-items: center; gap: 20px; padding: 16px 0; margin-bottom: 20px; }
+  .nav-bar a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-bar a:hover { color: var(--accent); }
+  .nav-bar .home-link { font-weight: 600; color: var(--text); }
+  .nav-bar .home-link:hover { color: var(--accent); }
+  article h1 { font-size: 2rem; font-weight: 800; line-height: 1.3; margin: 0 0 12px; background: linear-gradient(135deg,#fff 0%,#a78bfa 50%,#6c5ce7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .article-meta { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: flex; gap: 16px; align-items: center; }
+  .article-meta .date { display: flex; align-items: center; gap: 4px; }
+  .article-meta .read-time { color: var(--text-muted); font-size: 0.8rem; }
+  .toc { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; margin: 24px 0 32px; }
+  .toc h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; }
+  .toc ol { list-style: none; padding: 0; }
+  .toc li { margin-bottom: 8px; font-size: 0.88rem; }
+  .toc li a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  .toc li a:hover { color: #a78bfa; text-decoration: underline; }
+  article h2 { font-size: 1.4rem; font-weight: 700; margin: 40px 0 16px; color: var(--text); line-height: 1.4; }
+  article h3 { font-size: 1.1rem; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+  article p { margin-bottom: 16px; color: var(--text-muted); font-size: 0.95rem; }
+  article strong { color: var(--text); }
+  article ul, article ol { margin: 0 0 16px 20px; color: var(--text-muted); font-size: 0.95rem; }
+  article li { margin-bottom: 8px; }
+  article blockquote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 20px 0; background: rgba(108,92,231,0.06); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--text-muted); font-size: 0.92rem; font-style: italic; }
+  .highlight-box { background: rgba(108,92,231,0.08); border: 1px solid rgba(108,92,231,0.2); border-radius: var(--radius-sm); padding: 16px 20px; margin: 20px 0; }
+  .highlight-box p { margin-bottom: 0; }
+  .highlight-box strong { color: var(--accent); }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.88rem; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .cta-section { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin: 40px 0 0; text-align: center; }
+  .cta-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .cta-section p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg,#6c5ce7,#a78bfa); border: none; color: #fff; font-family: var(--font); font-weight: 600; font-size: 0.95rem; padding: 12px 28px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+  .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+  .cta-btn:active { transform: translateY(0); }
+  footer { text-align: center; margin-top: 60px; padding: 20px 0; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { color: #a78bfa; }
+  @media (max-width: 768px) {
+    .container { padding: 20px 14px 40px; }
+    .lang-toggle { padding: 10px 14px 0; }
+    article h1 { font-size: 1.5rem; }
+    article h2 { font-size: 1.2rem; margin-top: 28px; }
+    .toc { padding: 14px 16px; }
+    .cta-section { padding: 16px; }
+    .nav-bar { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" id="langBtn" title="Switch to Chinese">
+    <span class="lang-icon" id="langIconEn">EN</span><span class="lang-divider">|</span><span class="lang-icon" id="langIconZh">中文</span>
+  </button>
+</div>
+<div class="container">
+  <nav class="nav-bar">
+    <a href="/" class="home-link">&#8592; <span data-i18n="home">Home</span></a>
+    <a href="/blog/"><span data-i18n="blog">Blog</span></a>
+  </nav>
+  <article>
+    <h1 data-i18n="title">What Is an X Shadowban? The Complete Guide for 2026</h1>
+    <div class="article-meta">
+      <span class="date">&#128197; <span data-i18n="date">Published July 17, 2026</span></span>
+      <span class="read-time">&#128337; <span data-i18n="readTime">12 min read</span></span>
+    </div>
+
+    <div class="toc" data-i18n-block="toc">
+      <h3 data-i18n="tocTitle">Table of Contents</h3>
+      <ol>
+        <li><a href="#what-is" data-i18n="toc1">What Is a Shadowban?</a></li>
+        <li><a href="#how-works" data-i18n="toc2">How Shadowbans Work on X</a></li>
+        <li><a href="#causes" data-i18n="toc3">Common Causes of Shadowbans</a></li>
+        <li><a href="#signs" data-i18n="toc4">Signs Your Account May Be Shadowbanned</a></li>
+        <li><a href="#check" data-i18n="toc5">How to Check for a Shadowban</a></li>
+        <li><a href="#fix" data-i18n="toc6">How to Fix a Shadowban</a></li>
+        <li><a href="#myths" data-i18n="toc7">Common Myths About Shadowbans</a></li>
+        <li><a href="#faq" data-i18n="toc8">Frequently Asked Questions</a></li>
+      </ol>
+    </div>
+
+    <section id="what-is">
+      <h2 data-i18n="s1Title">What Is a Shadowban?</h2>
+      <p data-i18n="s1p1">A <strong>shadowban</strong> &mdash; also called a <strong>stealth ban</strong>, <strong>ghost ban</strong>, or <strong>silent restriction</strong> &mdash; is when a social media platform quietly limits the visibility of your content without notifying you. Your account appears perfectly normal to you: you can still post, reply, like, and follow. But to other users, your content is partially or completely hidden.</p>
+      <p data-i18n="s1p2">The term "shadowban" originated in online forums and community platforms, where moderators would silently restrict a troublesome user so they could still browse the community without realizing they were isolated. On X (formerly Twitter), the concept has evolved into a sophisticated system of algorithmic content moderation that affects how your content reaches other users.</p>
+      <p data-i18n="s1p3">X has never officially acknowledged using shadowbans. Instead, the company refers to these measures as <strong>"visibility filtering"</strong> or <strong>"distribution limits"</strong> applied to accounts that may violate platform rules. Regardless of the terminology, the effect is the same: your content stops being seen by a significant portion of your audience.</p>
+    </section>
+
+    <section id="how-works">
+      <h2 data-i18n="s2Title">How Shadowbans Work on X</h2>
+      <p data-i18n="s2p1">Unlike a full suspension or permanent ban, a shadowban operates in degrees. X applies different levels of restriction depending on the severity of the perceived violation. These restrictions are applied algorithmically, often without human review.</p>
+      <p data-i18n="s2p2">The system works through several mechanisms:</p>
+      <ul>
+        <li data-i18n="s2li1"><strong>Search Suggestion Ban (Typeahead):</strong> When another user types your handle into the search bar, your account does not appear as a suggestion. This is one of the earliest indicators of a shadowban.</li>
+        <li data-i18n="s2li2"><strong>Search Visibility Ban:</strong> Your tweets and profile are excluded from search results. Other users cannot find your content by searching for relevant keywords or hashtags.</li>
+        <li data-i18n="s2li3"><strong>Reply Deboosting:</strong> Your replies to other users&rsquo; tweets are pushed to the bottom of the thread or hidden behind "Show more replies" prompts, drastically reducing their visibility.</li>
+        <li data-i18n="s2li4"><strong>Ghost Ban (Reply Visibility):</strong> Your replies are made invisible to everyone except you and the original poster. From your perspective, the reply looks normal &mdash; but nobody else can see it.</li>
+      </ul>
+      <p data-i18n="s2p3">These restrictions can be applied individually or in combination. An account might have typeahead banned but still appear in search results, or all four measures might be active simultaneously.</p>
+    </section>
+
+    <section id="causes">
+      <h2 data-i18n="s3Title">Common Causes of Shadowbans</h2>
+      <p data-i18n="s3p1">Understanding what triggers a shadowban can help you avoid one. Based on community research and analysis, the following factors are commonly associated with shadowbans on X:</p>
+      <h3 data-i18n="s3h1">1. Rapid or Suspicious Following Activity</h3>
+      <p data-i18n="s3p2">Following too many accounts in a short period, especially if you follow and then unfollow repeatedly (follow-churning), is one of the fastest ways to trigger a shadowban. X interprets this as bot-like behavior.</p>
+      <h3 data-i18n="s3h2">2. Excessive Use of Hashtags or Links</h3>
+      <p data-i18n="s3p3">Posts containing too many hashtags or external links can be flagged as spam. While there is no official limit, community guidelines suggest using no more than 2-3 hashtags per post and being selective about link sharing.</p>
+      <h3 data-i18n="s3h3">3. Automated or Third-Party Tool Usage</h3>
+      <p data-i18n="s3p4">Using unauthorized third-party apps for automation, scheduling beyond what the official API allows, or any tool that mimics human activity can trigger algorithmic flags. X actively detects and penalizes non-human interaction patterns.</p>
+      <h3 data-i18n="s3h4">4. Reporting by Other Users</h3>
+      <p data-i18n="s3p5">If multiple users report your account or specific posts, X may automatically apply restrictions while the reports are reviewed. Even if the reports are ultimately found to be baseless, the shadowban may persist.</p>
+      <h3 data-i18n="s3h5">5. Violating Platform Rules</h3>
+      <p data-i18n="s3p6">Posting content that violates X&rsquo;s rules about hate speech, harassment, misinformation, or spam can trigger shadowbans. X&rsquo;s algorithm scans for policy-violating content and applies visibility restrictions automatically.</p>
+      <h3 data-i18n="s3h6">6. New Account Activity</h3>
+      <p data-i18n="s3p7">Brand-new accounts that engage in vigorous activity (posting, following, liking) immediately after creation are often shadowbanned as a precaution. X applies a "probationary period" to new accounts to prevent spam bots.</p>
+    </section>
+
+    <section id="signs">
+      <h2 data-i18n="s4Title">Signs Your Account May Be Shadowbanned</h2>
+      <p data-i18n="s4p1">Because shadowbans are invisible by design, you need to watch for subtle indicators. Here are the most common signs:</p>
+      <ul>
+        <li data-i18n="s4li1"><strong>Engagement drop:</strong> Your posts suddenly receive far fewer likes, retweets, and replies than usual, even though your follower count hasn&rsquo;t changed.</li>
+        <li data-i18n="s4li2"><strong>No search suggestions:</strong> When you ask friends to type your handle into X&rsquo;s search bar, your account doesn&rsquo;t appear in the suggestions.</li>
+        <li data-i18n="s4li3"><strong>Replies disappearing:</strong> Your replies to popular accounts seem to vanish &mdash; nobody is engaging with them, and when you log out or use another account, they&rsquo;re not visible.</li>
+        <li data-i18n="s4li4"><strong>Reduced reach despite normal activity:</strong> You&rsquo;re posting regularly, but your analytics show a significant decline in impressions.</li>
+        <li data-i18n="s4li5"><strong>Your content doesn&rsquo;t appear in hashtag searches:</strong> Posts with hashtags that used to perform well now get zero impressions from search.</li>
+      </ul>
+      <div class="highlight-box">
+        <p><strong data-i18n="tip">Tip:</strong> <span data-i18n="s4tip">The only reliable way to confirm a shadowban is to use a dedicated detection tool. Our <a href="/" style="color:var(--accent)">X Shadowban Checker</a> tests all four types of restrictions in seconds.</span></p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2 data-i18n="s5Title">How to Check for a Shadowban</h2>
+      <p data-i18n="s5p1">Checking for a shadowban requires testing how X treats your account from an external perspective. Here are the most reliable methods:</p>
+      <h3 data-i18n="s5h1">Method 1: Use a Shadowban Detection Tool (Recommended)</h3>
+      <p data-i18n="s5p2">The fastest and most comprehensive method is to use a <a href="/" style="color:var(--accent)">dedicated shadowban checker</a>. These tools test all shadowban indicators simultaneously and provide a clear score. Simply enter your username, and within seconds, you&rsquo;ll know exactly which restrictions are affecting your account.</p>
+      <h3 data-i18n="s5h2">Method 2: Manual Testing</h3>
+      <p data-i18n="s5p3">You can perform basic checks manually. Ask a friend to search for your handle and see if you appear in suggestions. Log out and search for a tweet you posted recently using relevant keywords. Create another account and check if your replies to public figures are visible. However, these methods are time-consuming and can only detect some types of restrictions.</p>
+    </section>
+
+    <section id="fix">
+      <h2 data-i18n="s6Title">How to Fix a Shadowban</h2>
+      <p data-i18n="s6p1">Fixing a shadowban is not always straightforward, but the following steps have been shown to help many users regain full visibility:</p>
+      <ul>
+        <li data-i18n="s6li1"><strong>Stop suspicious activity:</strong> Immediately cease any behavior that might be triggering the ban, such as following large numbers of accounts rapidly, posting duplicate content, or using automation tools.</li>
+        <li data-i18n="s6li2"><strong>Clean up your account:</strong> Remove any posts that might violate platform guidelines. Delete or archive tweets with excessive hashtags, spammy links, or controversial content.</li>
+        <li data-i18n="s6li3"><strong>Reduce posting frequency:</strong> Post less frequently for a few days. Focus on high-quality, original content rather than high-volume posting.</li>
+        <li data-i18n="s6li4"><strong>Engage authentically:</strong> Spend time reading and engaging with others&rsquo; content naturally. Avoid copy-paste replies or generic engagement.</li>
+        <li data-i18n="s6li5"><strong>Wait it out:</strong> Most shadowbans are temporary. Depending on the severity, they can last anywhere from a few days to several weeks. Consistent, genuine activity often resolves the issue over time.</li>
+        <li data-i18n="s6li6"><strong>Contact X Support:</strong> If the shadowban persists for more than two weeks and you believe it was applied in error, submit a support ticket through X&rsquo;s help center.</li>
+      </ul>
+      <div class="highlight-box">
+        <p><strong data-i18n="important">Important:</strong> <span data-i18n="s6warning">Avoid creating new accounts while your main account is shadowbanned. X may flag your new account as a ban evasion attempt, leading to more severe restrictions.</span></p>
+      </div>
+    </section>
+
+    <section id="myths">
+      <h2 data-i18n="s7Title">Common Myths About Shadowbans</h2>
+      <p data-i18n="s7p1">There is a lot of misinformation about shadowbans. Let&rsquo;s clear up some common misconceptions:</p>
+      <ul>
+        <li data-i18n="s7li1"><strong>Myth: Shadowbans don&rsquo;t exist.</strong> X has never officially confirmed the practice, but extensive testing by researchers and journalists has proven that visibility restrictions are real and active on the platform.</li>
+        <li data-i18n="s7li2"><strong>Myth: Only controversial accounts get shadowbanned.</strong> Any account can be shadowbanned, regardless of content. Even brand-new accounts with no controversial history can be shadowbanned for behavior that resembles spamming.</li>
+        <li data-i18n="s7li3"><strong>Myth: Shadowbans are permanent.</strong> Most shadowbans are temporary and resolve on their own within days to weeks, provided the triggering behavior stops.</li>
+        <li data-i18n="s7li4"><strong>Myth: You can bypass a shadowban by using a VPN.</strong> Shadowbans are tied to your account, not your IP address. Using a VPN will not help.</li>
+        <li data-i18n="s7li5"><strong>Myth: Posting more will fix a shadowban.</strong> In most cases, posting more while shadowbanned only prolongs the restriction. Reducing activity and letting the algorithm reset is more effective.</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2 data-i18n="s8Title">Frequently Asked Questions</h2>
+      <h3 data-i18n="faq1q">Do shadowbans affect all followers equally?</h3>
+      <p data-i18n="faq1a">No. Shadowbans primarily affect discoverability &mdash; showing up in search, suggestions, and trends. Your existing followers may still see your content in their timeline, though even timeline distribution can be reduced for heavily restricted accounts.</p>
+      <h3 data-i18n="faq2q">Can I see if I&rsquo;m shadowbanned from my own account?</h3>
+      <p data-i18n="faq2a">No &mdash; that&rsquo;s the defining feature of a shadowban. Everything looks normal from your perspective. You need external testing or feedback from other users to detect it.</p>
+      <h3 data-i18n="faq3q">How long do shadowbans last?</h3>
+      <p data-i18n="faq3a">Most shadowbans last between 3 days and 3 weeks. Severe or repeated violations can result in longer restrictions. Some accounts report shadowbans lasting over a month.</p>
+      <h3 data-i18n="faq4q">Does X notify you when you&rsquo;re shadowbanned?</h3>
+      <p data-i18n="faq4a">No. The lack of notification is what distinguishes a shadowban from a formal warning or suspension. X applies these restrictions silently.</p>
+    </section>
+  </article>
+
+  <div class="cta-section">
+    <h3 data-i18n="ctaTitle">Check Your Account Now</h3>
+    <p data-i18n="ctaDesc">Worried your account might be shadowbanned? Use our free tool to check all four types of restrictions in seconds.</p>
+    <a href="/" class="cta-btn">&#128270; <span data-i18n="ctaBtn">Check My Account</span></a>
+  </div>
+
+  <a href="/blog/" class="back-link">&#8592; <span data-i18n="back">Back to Blog</span></a>
+
+  <footer>
+    <span data-i18n="footer">&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; Free shadowban detection tool. <a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">Privacy</a></span>
+  </footer>
+</div>
+
+<script>
+const LANG = {
+  en: {
+    home: 'Home', blog: 'Blog',
+    title: 'What Is an X Shadowban? The Complete Guide for 2026',
+    date: 'Published July 17, 2026',
+    readTime: '12 min read',
+    tocTitle: 'Table of Contents',
+    toc1: 'What Is a Shadowban?',
+    toc2: 'How Shadowbans Work on X',
+    toc3: 'Common Causes of Shadowbans',
+    toc4: 'Signs Your Account May Be Shadowbanned',
+    toc5: 'How to Check for a Shadowban',
+    toc6: 'How to Fix a Shadowban',
+    toc7: 'Common Myths About Shadowbans',
+    toc8: 'Frequently Asked Questions',
+    s1Title: 'What Is a Shadowban?',
+    s1p1: 'A <strong>shadowban</strong> &mdash; also called a <strong>stealth ban</strong>, <strong>ghost ban</strong>, or <strong>silent restriction</strong> &mdash; is when a social media platform quietly limits the visibility of your content without notifying you. Your account appears perfectly normal to you: you can still post, reply, like, and follow. But to other users, your content is partially or completely hidden.',
+    s1p2: 'The term "shadowban" originated in online forums and community platforms, where moderators would silently restrict a troublesome user so they could still browse the community without realizing they were isolated. On X (formerly Twitter), the concept has evolved into a sophisticated system of algorithmic content moderation that affects how your content reaches other users.',
+    s1p3: 'X has never officially acknowledged using shadowbans. Instead, the company refers to these measures as <strong>"visibility filtering"</strong> or <strong>"distribution limits"</strong> applied to accounts that may violate platform rules. Regardless of the terminology, the effect is the same: your content stops being seen by a significant portion of your audience.',
+    s2Title: 'How Shadowbans Work on X',
+    s2p1: 'Unlike a full suspension or permanent ban, a shadowban operates in degrees. X applies different levels of restriction depending on the severity of the perceived violation. These restrictions are applied algorithmically, often without human review.',
+    s2p2: 'The system works through several mechanisms:',
+    s2li1: '<strong>Search Suggestion Ban (Typeahead):</strong> When another user types your handle into the search bar, your account does not appear as a suggestion. This is one of the earliest indicators of a shadowban.',
+    s2li2: '<strong>Search Visibility Ban:</strong> Your tweets and profile are excluded from search results. Other users cannot find your content by searching for relevant keywords or hashtags.',
+    s2li3: '<strong>Reply Deboosting:</strong> Your replies to other users\u2019 tweets are pushed to the bottom of the thread or hidden behind "Show more replies" prompts, drastically reducing their visibility.',
+    s2li4: '<strong>Ghost Ban (Reply Visibility):</strong> Your replies are made invisible to everyone except you and the original poster. From your perspective, the reply looks normal &mdash; but nobody else can see it.',
+    s2p3: 'These restrictions can be applied individually or in combination. An account might have typeahead banned but still appear in search results, or all four measures might be active simultaneously.',
+    s3Title: 'Common Causes of Shadowbans',
+    s3p1: 'Understanding what triggers a shadowban can help you avoid one. Based on community research and analysis, the following factors are commonly associated with shadowbans on X:',
+    s3h1: '1. Rapid or Suspicious Following Activity',
+    s3p2: 'Following too many accounts in a short period, especially if you follow and then unfollow repeatedly (follow-churning), is one of the fastest ways to trigger a shadowban. X interprets this as bot-like behavior.',
+    s3h2: '2. Excessive Use of Hashtags or Links',
+    s3p3: 'Posts containing too many hashtags or external links can be flagged as spam. While there is no official limit, community guidelines suggest using no more than 2-3 hashtags per post and being selective about link sharing.',
+    s3h3: '3. Automated or Third-Party Tool Usage',
+    s3p4: 'Using unauthorized third-party apps for automation, scheduling beyond what the official API allows, or any tool that mimics human activity can trigger algorithmic flags. X actively detects and penalizes non-human interaction patterns.',
+    s3h4: '4. Reporting by Other Users',
+    s3p5: 'If multiple users report your account or specific posts, X may automatically apply restrictions while the reports are reviewed. Even if the reports are ultimately found to be baseless, the shadowban may persist.',
+    s3h5: '5. Violating Platform Rules',
+    s3p6: 'Posting content that violates X\u2019s rules about hate speech, harassment, misinformation, or spam can trigger shadowbans. X\u2019s algorithm scans for policy-violating content and applies visibility restrictions automatically.',
+    s3h6: '6. New Account Activity',
+    s3p7: 'Brand-new accounts that engage in vigorous activity (posting, following, liking) immediately after creation are often shadowbanned as a precaution. X applies a "probationary period" to new accounts to prevent spam bots.',
+    s4Title: 'Signs Your Account May Be Shadowbanned',
+    s4p1: 'Because shadowbans are invisible by design, you need to watch for subtle indicators. Here are the most common signs:',
+    s4li1: '<strong>Engagement drop:</strong> Your posts suddenly receive far fewer likes, retweets, and replies than usual, even though your follower count hasn\u2019t changed.',
+    s4li2: '<strong>No search suggestions:</strong> When you ask friends to type your handle into X\u2019s search bar, your account doesn\u2019t appear in the suggestions.',
+    s4li3: '<strong>Replies disappearing:</strong> Your replies to popular accounts seem to vanish &mdash; nobody is engaging with them, and when you log out or use another account, they\u2019re not visible.',
+    s4li4: '<strong>Reduced reach despite normal activity:</strong> You\u2019re posting regularly, but your analytics show a significant decline in impressions.',
+    s4li5: '<strong>Your content doesn\u2019t appear in hashtag searches:</strong> Posts with hashtags that used to perform well now get zero impressions from search.',
+    tip: 'Tip:',
+    s4tip: 'The only reliable way to confirm a shadowban is to use a dedicated detection tool. Our <a href="/" style="color:var(--accent)">X Shadowban Checker</a> tests all four types of restrictions in seconds.',
+    s5Title: 'How to Check for a Shadowban',
+    s5p1: 'Checking for a shadowban requires testing how X treats your account from an external perspective. Here are the most reliable methods:',
+    s5h1: 'Method 1: Use a Shadowban Detection Tool (Recommended)',
+    s5p2: 'The fastest and most comprehensive method is to use a <a href="/" style="color:var(--accent)">dedicated shadowban checker</a>. These tools test all shadowban indicators simultaneously and provide a clear score. Simply enter your username, and within seconds, you\u2019ll know exactly which restrictions are affecting your account.',
+    s5h2: 'Method 2: Manual Testing',
+    s5p3: 'You can perform basic checks manually. Ask a friend to search for your handle and see if you appear in suggestions. Log out and search for a tweet you posted recently using relevant keywords. Create another account and check if your replies to public figures are visible. However, these methods are time-consuming and can only detect some types of restrictions.',
+    s6Title: 'How to Fix a Shadowban',
+    s6p1: 'Fixing a shadowban is not always straightforward, but the following steps have been shown to help many users regain full visibility:',
+    s6li1: '<strong>Stop suspicious activity:</strong> Immediately cease any behavior that might be triggering the ban, such as following large numbers of accounts rapidly, posting duplicate content, or using automation tools.',
+    s6li2: '<strong>Clean up your account:</strong> Remove any posts that might violate platform guidelines. Delete or archive tweets with excessive hashtags, spammy links, or controversial content.',
+    s6li3: '<strong>Reduce posting frequency:</strong> Post less frequently for a few days. Focus on high-quality, original content rather than high-volume posting.',
+    s6li4: '<strong>Engage authentically:</strong> Spend time reading and engaging with others\u2019 content naturally. Avoid copy-paste replies or generic engagement.',
+    s6li5: '<strong>Wait it out:</strong> Most shadowbans are temporary. Depending on the severity, they can last anywhere from a few days to several weeks. Consistent, genuine activity often resolves the issue over time.',
+    s6li6: '<strong>Contact X Support:</strong> If the shadowban persists for more than two weeks and you believe it was applied in error, submit a support ticket through X\u2019s help center.',
+    important: 'Important:',
+    s6warning: 'Avoid creating new accounts while your main account is shadowbanned. X may flag your new account as a ban evasion attempt, leading to more severe restrictions.',
+    s7Title: 'Common Myths About Shadowbans',
+    s7p1: 'There is a lot of misinformation about shadowbans. Let\u2019s clear up some common misconceptions:',
+    s7li1: '<strong>Myth: Shadowbans don\u2019t exist.</strong> X has never officially confirmed the practice, but extensive testing by researchers and journalists has proven that visibility restrictions are real and active on the platform.',
+    s7li2: '<strong>Myth: Only controversial accounts get shadowbanned.</strong> Any account can be shadowbanned, regardless of content. Even brand-new accounts with no controversial history can be shadowbanned for behavior that resembles spamming.',
+    s7li3: '<strong>Myth: Shadowbans are permanent.</strong> Most shadowbans are temporary and resolve on their own within days to weeks, provided the triggering behavior stops.',
+    s7li4: '<strong>Myth: You can bypass a shadowban by using a VPN.</strong> Shadowbans are tied to your account, not your IP address. Using a VPN will not help.',
+    s7li5: '<strong>Myth: Posting more will fix a shadowban.</strong> In most cases, posting more while shadowbanned only prolongs the restriction. Reducing activity and letting the algorithm reset is more effective.',
+    s8Title: 'Frequently Asked Questions',
+    faq1q: 'Do shadowbans affect all followers equally?',
+    faq1a: 'No. Shadowbans primarily affect discoverability &mdash; showing up in search, suggestions, and trends. Your existing followers may still see your content in their timeline, though even timeline distribution can be reduced for heavily restricted accounts.',
+    faq2q: 'Can I see if I\u2019m shadowbanned from my own account?',
+    faq2a: 'No &mdash; that\u2019s the defining feature of a shadowban. Everything looks normal from your perspective. You need external testing or feedback from other users to detect it.',
+    faq3q: 'How long do shadowbans last?',
+    faq3a: 'Most shadowbans last between 3 days and 3 weeks. Severe or repeated violations can result in longer restrictions. Some accounts report shadowbans lasting over a month.',
+    faq4q: 'Does X notify you when you\u2019re shadowbanned?',
+    faq4a: 'No. The lack of notification is what distinguishes a shadowban from a formal warning or suspension. X applies these restrictions silently.',
+    ctaTitle: 'Check Your Account Now',
+    ctaDesc: 'Worried your account might be shadowbanned? Use our free tool to check all four types of restrictions in seconds.',
+    ctaBtn: 'Check My Account',
+    back: 'Back to Blog',
+    footer: '&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; Free shadowban detection tool. <a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">Privacy</a>'
+  },
+  zh: {
+    home: '首页', blog: '博客文章',
+    title: '什么是 X Shadowban？2026 完整解读指南',
+    date: '发布于 2026 年 7 月 17 日',
+    readTime: '阅读时间约 12 分钟',
+    tocTitle: '目录',
+    toc1: '什么是 Shadowban？',
+    toc2: 'Shadowban 在 X 上如何运作',
+    toc3: 'Shadowban 的常见原因',
+    toc4: '你的账号可能被限制的迹象',
+    toc5: '如何检测 Shadowban',
+    toc6: '如何解除 Shadowban',
+    toc7: '关于 Shadowban 的常见误解',
+    toc8: '常见问题解答',
+    s1Title: '什么是 Shadowban？',
+    s1p1: '<strong>Shadowban</strong>（又称 <strong>隐形封禁</strong>、<strong>幽灵限制</strong> 或 <strong>静默限制</strong>）是指社交媒体平台在不通知你的情况下，悄悄限制你内容的可见性。你的账号在你看来完全正常：你仍然可以发帖、回复、点赞和关注。但对其他用户来说，你的内容被部分或完全隐藏了。',
+    s1p2: '"Shadowban" 这个词最早出现在在线论坛和社区平台中，版主会悄悄限制一个麻烦用户，让他们仍然可以浏览社区，却意识不到自己被隔离了。在 X（原 Twitter）上，这个概念已经演变为一套复杂的算法内容审核系统，影响你的内容如何触达其他用户。',
+    s1p3: 'X 从未官方承认使用过 shadowban。相反，公司将这些措施称为对可能违反平台规则的账号应用 <strong>"可见性过滤"</strong> 或 <strong>"分发限制"</strong>。无论使用什么术语，结果是相同的：你的内容不再被大部分受众看到。',
+    s2Title: 'Shadowban 在 X 上如何运作',
+    s2p1: '与完全封禁或永久封号不同，shadowban 是分程度操作的。X 根据感知到的违规严重程度应用不同级别的限制。这些限制由算法自动施加，通常没有人工审核。',
+    s2p2: '该系统通过以下几种机制运作：',
+    s2li1: '<strong>搜索建议限制（Typeahead）：</strong> 当其他用户在搜索栏输入你的账号名时，你的账号不会出现在建议列表中。这是 shadowban 最早期的指标之一。',
+    s2li2: '<strong>搜索可见性限制：</strong> 你的推文和个人资料被排除在搜索结果之外。其他用户无法通过搜索相关关键词或话题标签找到你的内容。',
+    s2li3: '<strong>回复降权：</strong> 你对其他用户推文的回复被推到线程底部，或隐藏在"显示更多回复"后面，大幅降低了可见性。',
+    s2li4: '<strong>幽灵限制（回复可见性）：</strong> 你的回复除了你和原作者外，其他人完全看不到。从你的角度看，回复显示正常——但其他人都看不见。',
+    s2p3: '这些限制可以单独应用，也可以组合使用。一个账号可能被限制搜索建议但仍出现在搜索结果中，也可能四种措施同时激活。',
+    s3Title: 'Shadowban 的常见原因',
+    s3p1: '了解什么会触发 shadowban 可以帮助你避免它。基于社区研究和分析，以下因素通常与 X 上的 shadowban 相关：',
+    s3h1: '1. 快速或可疑的关注行为',
+    s3p2: '在短时间内关注过多账号，特别是反复关注再取消关注（刷粉行为），是触发 shadowban 最快的方式之一。X 会将此视为机器人行为。',
+    s3h2: '2. 过度使用话题标签或链接',
+    s3p3: '包含过多话题标签或外部链接的帖子可能被标记为垃圾内容。虽然没有官方限制，但社区建议每条帖子使用不超过 2-3 个话题标签，并谨慎分享链接。',
+    s3h3: '3. 使用自动化或第三方工具',
+    s3p4: '使用未经授权的第三方自动化应用、超出官方 API 允许范围的定时发布工具、或任何模拟人类活动的工具，都可能触发算法标记。X 会主动检测和惩罚非人类互动模式。',
+    s3h4: '4. 被其他用户举报',
+    s3p5: '如果多个用户举报你的账号或特定帖子，X 可能会在审核期间自动施加限制。即使最终认定举报无效，shadowban 也可能持续存在。',
+    s3h5: '5. 违反平台规则',
+    s3p6: '发布违反 X 关于仇恨言论、骚扰、虚假信息或垃圾内容规则的内容可能触发 shadowban。X 的算法会扫描违规内容并自动施加可见性限制。',
+    s3h6: '6. 新账号活动',
+    s3p7: '全新账号在创建后立即进行大量活动（发帖、关注、点赞）通常会被作为预防措施 shadowban。X 对新账号实行"试用期"，以防止垃圾机器人。',
+    s4Title: '你的账号可能被限制的迹象',
+    s4p1: '因为 shadowban 本质上就是不可见的，你需要留意一些细微的指标。以下是最常见的迹象：',
+    s4li1: '<strong>互动量下降：</strong> 你的帖子突然收到的点赞、转发和回复比平时少很多，即便粉丝数没有变化。',
+    s4li2: '<strong>没有搜索建议：</strong> 当你让朋友在 X 的搜索栏输入你的账号名时，你的账号不会出现在建议中。',
+    s4li3: '<strong>回复消失：</strong> 你对热门账号的回复似乎消失了——没有人互动它们，当你登出或用另一个账号查看时，它们不可见。',
+    s4li4: '<strong>正常活动但覆盖下降：</strong> 你定期发帖，但分析数据显示展示量大幅下降。',
+    s4li5: '<strong>内容不出现在话题标签搜索中：</strong> 过去表现良好的话题标签帖子现在从搜索中获得零展示。',
+    tip: '提示：',
+    s4tip: '确认 shadowban 的唯一可靠方法是使用专门的检测工具。我们的 <a href="/" style="color:var(--accent)">X 账号阴影检测工具</a> 可以在几秒内测试全部四种限制。',
+    s5Title: '如何检测 Shadowban',
+    s5p1: '检测 shadowban 需要通过外部视角测试 X 如何处理你的账号。以下是最可靠的方法：',
+    s5h1: '方法一：使用 Shadowban 检测工具（推荐）',
+    s5p2: '最快、最全面的方法是使用 <a href="/" style="color:var(--accent)">专门的 shadowban 检测工具</a>。这些工具同时测试所有 shadowban 指标并提供清晰的评分。只需输入你的用户名，几秒钟内你就能知道哪些限制正在影响你的账号。',
+    s5h2: '方法二：手动测试',
+    s5p3: '你也可以手动进行基本检查。请朋友搜索你的账号名，看是否出现在建议中。登出后用关键词搜索你最近发布的推文。创建另一个账号检查你对公众人物的回复是否可见。但这些方法耗时且只能检测部分类型的限制。',
+    s6Title: '如何解除 Shadowban',
+    s6p1: '解除 shadowban 不总是直接的，但以下步骤已被证明能帮助许多用户恢复完整可见性：',
+    s6li1: '<strong>停止可疑活动：</strong> 立即停止可能触发限制的行为，如快速关注大量账号、发布重复内容或使用自动化工具。',
+    s6li2: '<strong>清理你的账号：</strong> 删除可能违反平台指南的帖子。删除或归档包含过多话题标签、垃圾链接或有争议内容的推文。',
+    s6li3: '<strong>降低发帖频率：</strong> 几天内减少发帖频率。专注于高质量、原创内容，而不是大量发帖。',
+    s6li4: '<strong>真实互动：</strong> 花时间自然地阅读和与他人内容互动。避免复制粘贴回复或千篇一律的互动。',
+    s6li5: '<strong>耐心等待：</strong> 大多数 shadowban 是暂时的。根据严重程度，它们可能持续几天到几周。持续、真实的活动通常会在时间推移中解决问题。',
+    s6li6: '<strong>联系 X 客服：</strong> 如果 shadowban 持续超过两周，且你认为是误判，通过 X 的帮助中心提交支持工单。',
+    important: '重要提示：',
+    s6warning: '避免在主账号被 shadowban 时创建新账号。X 可能将你的新账号标记为规避封禁，导致更严重的限制。',
+    s7Title: '关于 Shadowban 的常见误解',
+    s7p1: '关于 shadowban 存在大量错误信息。让我们澄清一些常见的误解：',
+    s7li1: '<strong>误解：Shadowban 不存在。</strong> X 从未正式确认过这种做法，但研究人员和记者的大量测试已证明可见性限制在平台上真实存在。',
+    s7li2: '<strong>误解：只有争议账号才会被 shadowban。</strong> 任何账号都有可能被 shadowban，与内容无关。即使是没有任何争议历史的全新账号，也可能因为类似垃圾内容的行为而被限制。',
+    s7li3: '<strong>误解：Shadowban 是永久性的。</strong> 大多数 shadowban 是暂时的，只要触发行为停止，会在几天到几周内自行解决。',
+    s7li4: '<strong>误解：使用 VPN 可以绕过 shadowban。</strong> Shadowban 绑定的是你的账号，不是你的 IP 地址。使用 VPN 没有帮助。',
+    s7li5: '<strong>误解：多发帖可以解除 shadowban。</strong> 大多数情况下，在被 shadowban 时多发帖只会延长限制。减少活动、让算法重置更有效。',
+    s8Title: '常见问题解答',
+    faq1q: 'Shadowban 对所有粉丝的影响都一样吗？',
+    faq1a: '不是。Shadowban 主要影响可发现性——出现在搜索、建议和趋势中。你现有的粉丝仍然可能在时间线中看到你的内容，但对于严重受限的账号，时间线的分发也可能减少。',
+    faq2q: '我能在自己的账号上看到自己是否被 shadowban 吗？',
+    faq2a: '不能——这正是 shadowban 的定义特征。从你的角度看一切正常。你需要借助外部测试或从其他用户那里获得反馈才能发现。',
+    faq3q: 'Shadowban 会持续多久？',
+    faq3a: '大多数 shadowban 持续 3 天到 3 周。严重或重复违规可能导致更长的限制。一些账号报告 shadowban 持续超过一个月。',
+    faq4q: 'X 会在你被 shadowban 时通知你吗？',
+    faq4a: '不会。不通知正是 shadowban 与正式警告或封禁的区别。X 会静默施加这些限制。',
+    ctaTitle: '立即检测你的账号',
+    ctaDesc: '担心你的账号被 shadowban？使用我们的免费工具，几秒钟内检测全部四种限制。',
+    ctaBtn: '检测我的账号',
+    back: '返回博客',
+    footer: '&copy; 2026 <a href="https://xcheckai.online">X Shadowban Checker</a> &mdash; 免费的阴影限制检测工具。<a href="/privacy-policy.html" style="color:var(--text-dim);font-size:0.78rem;margin-left:8px">隐私政策</a>'
+  }
+};
+let currentLang = localStorage.getItem('sb_lang') || 'en';
+document.documentElement.lang = currentLang;
+function t(key) {
+  let v = (LANG[currentLang] && LANG[currentLang][key]) || LANG.en[key] || key;
+  return v;
+}
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n')); });
+  document.getElementById('langBtn').title = currentLang === 'en' ? '切换到中文' : 'Switch to English';
+  document.getElementById('langIconEn').style.color = currentLang === 'en' ? '#6c5ce7' : '';
+  document.getElementById('langIconZh').style.color = currentLang === 'zh' ? '#6c5ce7' : '';
+}
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.documentElement.lang = currentLang;
+  localStorage.setItem('sb_lang', currentLang);
+  applyLang();
+}
+document.getElementById('langBtn').addEventListener('click', toggleLang);
+applyLang();
+</script>
+</body>
+</html>
