@@ -146,77 +146,7 @@
   footer { text-align: center; margin-top: 60px; padding: 20px 0; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); }
   footer a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
   footer a:hover { color: #a78bfa; }
-    /* ── Ad Placements ── */
- .ad-container {
-    margin: 16px 0;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    text-align: center;
-    min-height: 90px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid transparent;
-    transition: border-color 0.3s, background 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .ad-container.ad-loaded {
-    min-height: auto;
-    background: none;
-    border-color: transparent;
-  }
-  .ad-container .ad-label {
-    position: absolute;
-    top: 4px;
-    right: 8px;
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    letter-spacing: 0.06em;
-    opacity: 0.5;
-    user-select: none;
-    pointer-events: none;
-    z-index: 1;
-  }
- .ad-placeholder {
-    padding: 28px 20px;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-size: 0.82rem;
-    letter-spacing: 0.03em;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: center;
-  }
-  .ad-placeholder .ph-icon {
-    font-size: 1.4rem;
-    opacity: 0.3;
-  }
-  .ad-placeholder .ph-text {
-    font-size: 0.72rem;
-    opacity: 0.5;
-  }
-  .ad-container.ad-blocked .ad-placeholder {
-    border-color: rgba(255,107,107,0.2);
-    color: var(--red);
-    opacity: 0.6;
-  }
-  .ad-container-inline {
-    margin: 10px 0 14px;
-    min-height: 70px;
-  }
-  .ad-container-footer {
-    margin: 32px 0 0;
-  }
-  /* Share Section */
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-size: 0.82rem;
-    letter-spacing: 0.03em;
-  }
+  
   /* Share Section */
   .nav-blog-link:hover { color: var(--accent) !important; }
   .nav-blog-link-zh { display: none; }
@@ -360,13 +290,7 @@
       <span class="spinner"></span>
     </button>
   </div>
- <!-- AD PLACEMENT 1 — 搜索框下方 -->
- <div class="ad-container">
-    <span class="ad-label">AD</span>
-    <div class="ad-placeholder" id="ph1">
-      <span class="ph-icon material-icons">ads_click</span>
-      <span class="ph-text">Advertisement</span>
-    </div>
+
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-9496732194077713"
@@ -412,13 +336,7 @@
       </button>
     </div>
   </div>
- <!-- AD PLACEMENT 2 — 结果下方 -->
- <div class="ad-container">
-    <span class="ad-label">AD</span>
-    <div class="ad-placeholder" id="ph2">
-      <span class="ph-icon material-icons">ads_click</span>
-      <span class="ph-text">Advertisement</span>
-    </div>
+
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-9496732194077713"
@@ -444,13 +362,7 @@
       <div class="info-header"><span data-i18n="faq3h">搜索可见性限制</span> <span class="material-icons">expand_more</span></div>
      <div class="info-body" data-i18n="faq3b">检测你的推文是否在其他用户的搜索结果中可见。<strong>失败</strong> 意味着你的内容被隐藏了 — 这是经典的阴影限制信号。</div>
    </div>
-  <!-- AD PLACEMENT 3 — FAQ 内文广告 -->
-  <div class="ad-container ad-container-inline">
-    <span class="ad-label">AD</span>
-    <div class="ad-placeholder" id="ph3">
-      <span class="ph-icon material-icons">ads_click</span>
-      <span class="ph-text">Advertisement</span>
-    </div>
+
   <ins class="adsbygoogle"
        style="display:block"
        data-ad-client="ca-pub-9496732194077713"
@@ -471,13 +383,7 @@
       <div class="info-body" data-i18n="faq5b">检测平台是否在限制你回复的传播范围 — 例如回复被排到评论区底部，或需要点击"显示更多回复"才能看到。<strong>失败</strong> 表示你的互动被人工压制了。</div>
    </div>
  </div>
-  <!-- AD PLACEMENT 4 — 页脚上方 -->
-  <div class="ad-container ad-container-footer">
-    <span class="ad-label">AD</span>
-    <div class="ad-placeholder" id="ph4">
-      <span class="ph-icon material-icons">ads_click</span>
-      <span class="ph-text">Advertisement</span>
-    </div>
+
   <ins class="adsbygoogle"
        style="display:block"
        data-ad-client="ca-pub-9496732194077713"
@@ -780,51 +686,6 @@ sn.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
 document.getElementById('langBtn').addEventListener('click', toggleLang);
 // ── Init ──
 applyLang();
-</script>
-<!-- Ad Blocker Detection -->
-<script>
-(function() {
-  function detectAdBlock() {
-    var t = document.createElement('div');
-    t.innerHTML = '&nbsp;';
-    t.className = 'adsbox';
-    t.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden';
-    document.body.appendChild(t);
-    window.setTimeout(function() {
-      if (t.offsetHeight === 0 || t.offsetWidth === 0) {
-        document.querySelectorAll('.ad-container').forEach(function(e) {
-          e.classList.add('ad-blocked');
-          var p = e.querySelector('.ad-placeholder');
-          if (p) p.innerHTML = '<span class="ph-icon material-icons">block</span><span class="ph-text">Ad blocker detected — please whitelist this site to support us</span>';
-        });
-      }
-      document.body.removeChild(t);
-    }, 100);
-  }
-  if (document.readyState === 'complete') { detectAdBlock(); }
-  else { window.addEventListener('load', detectAdBlock); }
-})();
-</script>
-<!-- Ad status marker -->
-<script>
-(function() {
-  var ci = setInterval(function() {
-    document.querySelectorAll('.adsbygoogle').forEach(function(e) {
-      if (e.getAttribute('data-ad-status') === 'filled' || e.getAttribute('data-ad-status') === 'unfilled') {
-        var c = e.closest('.ad-container');
-        if (c) {
-          c.classList.add('ad-loaded');
-          var p = c.querySelector('.ad-placeholder');
-          if (p) p.style.display = 'none';
-        }
-      }
-    });
-    var all = document.querySelectorAll('.adsbygoogle');
-    var done = true;
-    all.forEach(function(e) { if (!e.getAttribute('data-ad-status')) done = false; });
-    if (done) clearInterval(ci);
-  }, 500);
-})();
 </script>
 <!-- Visit Tracker --><script src="https://api.xcheckai.online/tracker.js"></script></body>
 </html>
